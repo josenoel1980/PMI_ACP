@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMI-ACP® Ultimate Study Guide 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy2: #0d1f3c;
+  --blue: #1a56db;
+  --blue2: #2563eb;
+  --accent: #00c9a7;
+  --accent2: #06d6a0;
+  --gold: #f59e0b;
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --sidebar-w: 290px;
+  --bg: #f0f4ff;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text2: #475569;
+  --border: #e2e8f0;
+  --highlight: #fff3cd;
+  --code-bg: #1e293b;
+  --radius: 10px;
+  --shadow: 0 4px 24px rgba(10,22,40,0.10);
+  --shadow2: 0 2px 8px rgba(10,22,40,0.07);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ── LAYOUT ────────────────────────────────────────────── */
+#app { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ───────────────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  transition: width 0.3s ease, min-width 0.3s ease;
+  z-index: 100;
+}
+#sidebar.collapsed { width: 56px; min-width: 56px; }
+#sidebar.collapsed .sidebar-label,
+#sidebar.collapsed .section-items,
+#sidebar.collapsed #search-box,
+#sidebar.collapsed .sidebar-logo-text { display: none; }
+#sidebar.collapsed .section-header { justify-content: center; padding: 10px 0; }
+#sidebar.collapsed .section-icon { margin: 0; }
+
+.sidebar-top {
+  padding: 20px 16px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  flex-shrink: 0;
+}
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.sidebar-badge {
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  color: white;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.sidebar-logo-text {
+  color: rgba(255,255,255,0.55);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Search */
+.search-wrap {
+  position: relative;
+}
+#search-box {
+  width: 100%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 8px 12px 8px 34px;
+  color: white;
+  font-size: 13px;
+  font-family: 'Sora', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+#search-box::placeholder { color: rgba(255,255,255,0.35); }
+#search-box:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.10);
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  pointer-events: none;
+}
+#search-results-count {
+  font-size: 10px;
+  color: var(--accent);
+  margin-top: 5px;
+  padding-left: 2px;
+  min-height: 14px;
+}
+
+/* Nav */
+#sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+#sidebar-nav::-webkit-scrollbar { width: 4px; }
+#sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+.nav-section { margin-bottom: 2px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+  border-left: 3px solid transparent;
+}
+.section-header:hover { background: rgba(255,255,255,0.06); color: white; }
+.section-header.active { background: rgba(0,201,167,0.12); color: var(--accent); border-left-color: var(--accent); }
+.section-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.section-label { flex: 1; }
+.chevron {
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  transition: transform 0.2s;
+}
+.section-header.open .chevron { transform: rotate(90deg); }
+
+.section-items {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+.section-items.open { max-height: 1000px; }
+.nav-item {
+  display: block;
+  padding: 6px 16px 6px 47px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  margin-left: 0;
+}
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.04); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,201,167,0.07); }
+
+/* Toggle btn */
+#toggle-sidebar {
+  position: fixed;
+  left: calc(var(--sidebar-w) - 14px);
+  top: 22px;
+  width: 28px;
+  height: 28px;
+  background: var(--navy2);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 200;
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+  transition: left 0.3s ease, background 0.2s;
+}
+#toggle-sidebar:hover { background: var(--navy); color: white; }
+body.sidebar-collapsed #toggle-sidebar { left: 42px; }
+
+/* ── MAIN ──────────────────────────────────────────────── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* Top bar */
+#topbar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow2);
+}
+.topbar-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  flex: 1;
+}
+.topbar-badge {
+  background: linear-gradient(135deg, var(--accent), var(--blue2));
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text2);
+}
+.progress-bar-outer {
+  width: 120px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--blue2));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* Content area */
+#content {
+  padding: 40px 48px 80px;
+  max-width: 960px;
+}
+
+/* Search highlight */
+.search-highlight {
+  background: #fef08a;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* ── CONTENT STYLES ────────────────────────────────────── */
+.page-section { display: none; }
+.page-section.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #0f2f5a 100%);
+  border-radius: 16px;
+  padding: 36px 40px;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.section-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,201,167,0.15) 0%, transparent 70%);
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.hero-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  max-width: 600px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 12px 20px;
+  min-width: 90px;
+}
+.hero-stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.hero-stat-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+h2.content-h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 36px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h2.content-h2::before {
+  content: '';
+  width: 4px;
+  height: 22px;
+  background: linear-gradient(to bottom, var(--accent), var(--blue2));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+h3.content-h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blue2);
+  margin: 24px 0 10px;
+}
+h4.content-h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+}
+
+p.content-p {
+  color: var(--text2);
+  margin-bottom: 14px;
+  font-size: 14.5px;
+  line-height: 1.8;
+}
+
+/* Callout boxes */
+.callout {
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  border-left: 4px solid;
+}
+.callout-blue { background: #eff6ff; border-color: var(--blue2); }
+.callout-green { background: #f0fdf4; border-color: #16a34a; }
+.callout-amber { background: #fffbeb; border-color: var(--gold); }
+.callout-red { background: #fef2f2; border-color: var(--red); }
+.callout-purple { background: #faf5ff; border-color: var(--purple); }
+.callout-navy { background: #f0f4ff; border-color: var(--navy); }
+.callout-title {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+.callout-blue .callout-title { color: var(--blue2); }
+.callout-green .callout-title { color: #16a34a; }
+.callout-amber .callout-title { color: #92400e; }
+.callout-red .callout-title { color: var(--red); }
+.callout-purple .callout-title { color: var(--purple); }
+.callout-navy .callout-title { color: var(--navy); }
+.callout ul { padding-left: 18px; }
+.callout li { font-size: 13.5px; color: var(--text); margin-bottom: 5px; line-height: 1.6; }
+
+/* Tables */
+.content-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13.5px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow2);
+}
+.content-table th {
+  background: var(--navy);
+  color: white;
+  padding: 11px 14px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.content-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.content-table tr:last-child td { border-bottom: none; }
+.content-table tr:nth-child(even) td { background: #f8faff; }
+.content-table tr:hover td { background: #f0f4ff; }
+td strong { color: var(--navy); font-weight: 600; }
+
+/* Value cards */
+.value-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0;
+}
+.value-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent), var(--blue2));
+}
+.value-card-over {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.value-card-left {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.value-card-right {
+  font-size: 12.5px;
+  color: var(--text2);
+}
+
+/* Principles list */
+.principle-item {
+  display: flex;
+  gap: 14px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 16px;
+  margin-bottom: 8px;
+  transition: box-shadow 0.15s;
+}
+.principle-item:hover { box-shadow: var(--shadow2); }
+.principle-num {
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, var(--accent), var(--blue2));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.principle-text { font-size: 13.5px; color: var(--text); line-height: 1.6; }
+.principle-note { font-size: 12px; color: var(--accent); font-weight: 600; margin-top: 3px; }
+
+/* Q&A blocks */
+.qa-block {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow2);
+}
+.qa-question {
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: white;
+  transition: background 0.15s;
+  border-bottom: 1px solid transparent;
+}
+.qa-question:hover { background: #f8faff; }
+.qa-question.open { background: #f0f4ff; border-bottom-color: var(--border); }
+.qa-qnum {
+  width: 28px;
+  height: 28px;
+  background: var(--navy);
+  color: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.qa-qtxt { flex: 1; line-height: 1.55; }
+.qa-toggle { color: var(--text2); font-size: 12px; flex-shrink: 0; margin-top: 3px; transition: transform 0.2s; }
+.qa-question.open .qa-toggle { transform: rotate(180deg); }
+.qa-body { display: none; padding: 16px 18px; }
+.qa-body.open { display: block; animation: fadeIn 0.2s ease; }
+.qa-options { list-style: none; margin-bottom: 14px; }
+.qa-option {
+  padding: 9px 13px;
+  border-radius: 7px;
+  margin-bottom: 6px;
+  font-size: 13.5px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: background 0.15s, border-color 0.15s;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.qa-option:hover { background: #f8faff; border-color: var(--blue2); }
+.qa-option.correct { background: #f0fdf4; border-color: #16a34a; }
+.qa-option.incorrect { background: #fef2f2; border-color: var(--red); }
+.qa-option-letter {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: var(--text2);
+}
+.qa-option.correct .qa-option-letter { background: #16a34a; color: white; }
+.qa-option.incorrect .qa-option-letter { background: var(--red); color: white; }
+.qa-answer {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-size: 13.5px;
+  color: #14532d;
+  margin-top: 6px;
+}
+.qa-answer strong { color: #16a34a; }
+
+/* Domain cards */
+.domain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0;
+}
+.domain-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.domain-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.domain-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.domain-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.domain-desc { font-size: 12.5px; color: var(--text2); line-height: 1.55; }
+.domain-bar {
+  height: 4px;
+  border-radius: 4px;
+  margin-top: 12px;
+  background: var(--border);
+  overflow: hidden;
+}
+.domain-bar-fill { height: 100%; border-radius: 4px; }
+
+/* Tuckman stages */
+.tuckman-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+}
+.tuckman-card {
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.tuckman-stage {
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.tuckman-desc { font-size: 11.5px; line-height: 1.5; margin-bottom: 8px; }
+.tuckman-leader { font-size: 11px; font-weight: 600; font-style: italic; }
+
+/* Framework cards */
+.framework-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0;
+}
+.framework-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  transition: box-shadow 0.15s;
+}
+.framework-card:hover { box-shadow: var(--shadow); }
+.fw-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.fw-name { font-weight: 700; font-size: 14px; color: var(--navy); margin-bottom: 4px; }
+.fw-tagline { font-size: 11.5px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+.fw-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
+
+/* Formula cards */
+.formula-card {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 12px 0;
+  border-left: 3px solid var(--accent);
+}
+.formula-name { color: var(--accent); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.formula-expr {
+  font-family: 'JetBrains Mono', monospace;
+  color: #e2e8f0;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.formula-note { color: #94a3b8; font-size: 12.5px; line-height: 1.6; }
+
+/* Tips list */
+.tip-list { list-style: none; margin: 12px 0; }
+.tip-item {
+  display: flex;
+  gap: 12px;
+  padding: 9px 14px;
+  border-radius: 7px;
+  margin-bottom: 6px;
+  font-size: 13.5px;
+  align-items: flex-start;
+}
+.tip-item:nth-child(odd) { background: white; border: 1px solid var(--border); }
+.tip-item:nth-child(even) { background: #f8faff; border: 1px solid #e8eeff; }
+.tip-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.tip-text { color: var(--text); line-height: 1.6; }
+
+/* Metric cards grid */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 18px 0;
+}
+.metric-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.metric-name { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.metric-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--blue2);
+  margin-bottom: 4px;
+}
+.metric-good { font-size: 11px; color: #16a34a; }
+.metric-bad { font-size: 11px; color: var(--red); }
+
+/* Search overlay */
+#search-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,22,40,0.7);
+  z-index: 1000;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+#search-overlay.active { display: flex; }
+.search-modal {
+  background: white;
+  border-radius: 14px;
+  width: 680px;
+  max-width: 92vw;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+#search-modal-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-family: 'Sora', sans-serif;
+  color: var(--text);
+}
+#search-modal-input::placeholder { color: #94a3b8; }
+.search-modal-kbd {
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+#search-modal-results {
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 8px;
+}
+.search-result-item {
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: background 0.12s;
+}
+.search-result-item:hover, .search-result-item.focused { background: #f0f4ff; }
+.search-result-section { font-size: 11px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.search-result-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+.search-result-preview { font-size: 12.5px; color: var(--text2); line-height: 1.5; }
+.search-result-preview mark { background: #fef08a; border-radius: 2px; padding: 0 2px; }
+.no-results { text-align: center; padding: 40px; color: var(--text2); font-size: 14px; }
+
+/* Cheat sheet compact */
+.cheatsheet-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0;
+}
+.cs-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.cs-card-head {
+  background: var(--navy);
+  color: white;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cs-card-body { padding: 12px 14px; }
+.cs-item {
+  display: flex;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 12.5px;
+  align-items: baseline;
+}
+.cs-item:last-child { border-bottom: none; }
+.cs-key { font-weight: 700; color: var(--navy); min-width: 80px; flex-shrink: 0; }
+.cs-val { color: var(--text2); line-height: 1.5; }
+
+/* Acronym table search */
+#acronym-search {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 14px;
+  font-family: 'Sora', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#acronym-search:focus { border-color: var(--accent); }
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  #sidebar { position: fixed; transform: translateX(0); }
+  #sidebar.collapsed { transform: translateX(-100%); }
+  #main { margin-left: 0; }
+  #content { padding: 24px 20px 60px; }
+  .domain-grid, .framework-grid, .value-grid { grid-template-columns: 1fr; }
+  .metric-grid { grid-template-columns: 1fr 1fr; }
+  .tuckman-grid { grid-template-columns: 1fr; }
+  .cheatsheet-grid { grid-template-columns: 1fr; }
+  #topbar { padding: 12px 20px; }
+  .topbar-title { font-size: 15px; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-brand">
+      <div class="sidebar-badge">PMI-ACP®</div>
+      <div class="sidebar-logo-text">Study Guide 2025</div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input id="search-box" type="text" placeholder="Search content..." autocomplete="off">
+      <div id="search-results-count"></div>
+    </div>
+  </div>
+  <div id="sidebar-nav"></div>
+</nav>
+
+<button id="toggle-sidebar" title="Toggle sidebar">◀</button>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <div class="topbar-title">PMI-ACP® Ultimate Study Guide</div>
+    <div class="progress-wrap">
+      <span>Progress</span>
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
+      <span id="progress-text">0%</span>
+    </div>
+    <div class="topbar-badge">2025 ECO</div>
+  </div>
+  <div id="content"></div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay">
+  <div class="search-modal">
+    <div class="search-modal-header">
+      <span style="color:#94a3b8;font-size:18px;">⌕</span>
+      <input id="search-modal-input" placeholder="Search anything — frameworks, terms, questions...">
+      <span class="search-modal-kbd" id="search-close-btn">ESC</span>
+    </div>
+    <div id="search-modal-results"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  DATA — all sections and their content
+// ══════════════════════════════════════════════════════
+const SECTIONS = [
+  {
+    id: 'overview', icon: '🎯', color: '#1a56db',
+    title: 'Overview',
+    subsections: [
+      { id: 'what-is', title: 'What is PMI-ACP?' },
+      { id: 'why-earn', title: 'Why Earn It?' },
+      { id: 'vs-others', title: 'PMI-ACP vs. Others' },
+    ]
+  },
+  {
+    id: 'eligibility', icon: '✅', color: '#16a34a',
+    title: 'Eligibility',
+    subsections: [
+      { id: 'requirements', title: 'Requirements 2025' },
+      { id: 'pathways', title: 'Experience Pathways' },
+      { id: 'fees', title: 'Fees & Maintenance' },
+    ]
+  },
+  {
+    id: 'exam-format', icon: '📋', color: '#8b5cf6',
+    title: 'Exam Format',
+    subsections: [
+      { id: 'at-a-glance', title: 'At a Glance' },
+      { id: 'question-types', title: 'Question Types' },
+      { id: 'domains', title: '4 Domains Overview' },
+      { id: 'scoring', title: 'Scoring System' },
+    ]
+  },
+  {
+    id: 'domain1', icon: '🧠', color: '#f59e0b',
+    title: 'D1: Mindset',
+    subsections: [
+      { id: 'manifesto-values', title: 'Agile Manifesto Values' },
+      { id: 'principles', title: '12 Principles (All)' },
+      { id: 'empirical', title: 'Empirical Process Control' },
+      { id: 'growth-mindset', title: 'Growth Mindset' },
+    ]
+  },
+  {
+    id: 'domain2', icon: '👥', color: '#06d6a0',
+    title: 'D2: Leadership',
+    subsections: [
+      { id: 'servant-leadership', title: 'Servant Leadership' },
+      { id: 'tuckman', title: "Tuckman's Model" },
+      { id: 'conflict', title: 'Conflict Management' },
+      { id: 'coaching', title: 'Coaching & Mentoring' },
+      { id: 'facilitation', title: 'Facilitation Techniques' },
+    ]
+  },
+  {
+    id: 'domain3', icon: '📦', color: '#f472b6',
+    title: 'D3: Product',
+    subsections: [
+      { id: 'user-stories', title: 'User Stories & INVEST' },
+      { id: 'prioritization', title: 'Prioritization Techniques' },
+      { id: 'backlog', title: 'Backlog Management' },
+      { id: 'dod-dor', title: 'DoD vs DoR' },
+      { id: 'mvp', title: 'MVP & MMF' },
+    ]
+  },
+  {
+    id: 'domain4', icon: '🚀', color: '#ef4444',
+    title: 'D4: Delivery',
+    subsections: [
+      { id: 'ceremonies', title: 'Scrum Ceremonies' },
+      { id: 'metrics', title: 'Agile Metrics' },
+      { id: 'risk', title: 'Risk Management' },
+      { id: 'cicd', title: 'CI/CD & TDD' },
+    ]
+  },
+  {
+    id: 'frameworks', icon: '🏗️', color: '#0ea5e9',
+    title: 'Frameworks',
+    subsections: [
+      { id: 'scrum', title: 'Scrum' },
+      { id: 'kanban', title: 'Kanban' },
+      { id: 'lean', title: 'Lean' },
+      { id: 'xp', title: 'XP' },
+      { id: 'safe', title: 'SAFe' },
+      { id: 'other-fw', title: 'DSDM, Crystal, DA' },
+    ]
+  },
+  {
+    id: 'tools', icon: '🔧', color: '#7c3aed',
+    title: 'Tools & Techniques',
+    subsections: [
+      { id: 'estimation', title: 'Estimation Techniques' },
+      { id: 'retro-formats', title: 'Retrospective Formats' },
+      { id: 'info-radiators', title: 'Information Radiators' },
+    ]
+  },
+  {
+    id: 'formulas', icon: '🧮', color: '#dc2626',
+    title: 'Formulas',
+    subsections: [
+      { id: 'velocity-formulas', title: 'Velocity & Forecasting' },
+      { id: 'evm', title: 'Earned Value (EVM)' },
+      { id: 'pert', title: 'PERT Estimation' },
+      { id: 'kanban-formulas', title: "Kanban & Little's Law" },
+    ]
+  },
+  {
+    id: 'questions', icon: '❓', color: '#0891b2',
+    title: 'Sample Questions',
+    subsections: [
+      { id: 'q-mindset', title: 'Mindset Questions (Q1–Q25)' },
+      { id: 'q-leadership', title: 'Leadership Questions (Q26–Q55)' },
+      { id: 'q-product', title: 'Product Questions (Q56–Q75)' },
+      { id: 'q-delivery', title: 'Delivery Questions (Q76–Q100)' },
+      { id: 'q-frameworks', title: 'Framework Questions (Q101–Q112)' },
+    ]
+  },
+  {
+    id: 'cheatsheet', icon: '📌', color: '#d97706',
+    title: 'Cheat Sheet',
+    subsections: [
+      { id: 'golden-rules', title: 'Golden Exam Rules' },
+      { id: 'acronyms', title: 'Acronym Master List' },
+      { id: 'formulas-quick', title: 'Formula Quick Card' },
+    ]
+  },
+  {
+    id: 'study-plan', icon: '📅', color: '#7c3aed',
+    title: 'Study Plan',
+    subsections: [
+      { id: 'timeline', title: '12-Week Timeline' },
+      { id: 'resources', title: 'Resources & Books' },
+      { id: 'exam-day', title: 'Exam Day Checklist' },
+    ]
+  },
+];
+
+// ══════════════════════════════════════════════════════
+//  CONTENT RENDERER
+// ══════════════════════════════════════════════════════
+function renderSection(secId) {
+  const renderers = {
+    overview: renderOverview,
+    eligibility: renderEligibility,
+    'exam-format': renderExamFormat,
+    domain1: renderDomain1,
+    domain2: renderDomain2,
+    domain3: renderDomain3,
+    domain4: renderDomain4,
+    frameworks: renderFrameworks,
+    tools: renderTools,
+    formulas: renderFormulas,
+    questions: renderQuestions,
+    cheatsheet: renderCheatsheet,
+    'study-plan': renderStudyPlan,
+  };
+  return (renderers[secId] || (() => '<p>Coming soon.</p>'))();
+}
+
+function callout(type, title, items) {
+  return `<div class="callout callout-${type}">
+    <div class="callout-title">${title}</div>
+    <ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>
+  </div>`;
+}
+
+function table(headers, rows) {
+  return `<table class="content-table">
+    <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(row => `<tr>${row.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function qaBlock(num, question, options, answer, explanation) {
+  const letters = ['A','B','C','D'];
+  return `<div class="qa-block" data-qa="${num}">
+    <div class="qa-question" onclick="toggleQA(${num})">
+      <div class="qa-qnum">Q${num}</div>
+      <div class="qa-qtxt">${question}</div>
+      <div class="qa-toggle">▼</div>
+    </div>
+    <div class="qa-body" id="qa-body-${num}">
+      <ul class="qa-options">
+        ${options.map((opt, i) => `<li class="qa-option" onclick="selectOpt(this,${num},'${letters[i]}','${answer}')" data-letter="${letters[i]}">
+          <span class="qa-option-letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </li>`).join('')}
+      </ul>
+      <div class="qa-answer" id="qa-ans-${num}" style="display:none">
+        <strong>✔ Answer: ${answer}</strong> — ${explanation}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderOverview() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Certification Overview</div>
+    <div class="hero-title">PMI Agile Certified Practitioner</div>
+    <div class="hero-subtitle">The world's most comprehensive, framework-agnostic agile certification. ISO/IEC 17024 accredited and recognized in 200+ countries.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-val">200+</span><div class="hero-stat-label">Countries</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">ISO</span><div class="hero-stat-label">Accredited</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">28%</span><div class="hero-stat-label">Salary Boost</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">2011</span><div class="hero-stat-label">Established</div></div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="what-is">What is PMI-ACP?</h2>
+  <p class="content-p">The PMI Agile Certified Practitioner (PMI-ACP)® is PMI's flagship agile certification. Unlike certifications tied to a single methodology — Scrum's CSM, SAFe's SA, etc. — the PMI-ACP is <strong>framework-agnostic</strong>. It validates your ability to lead projects using ANY agile approach: Scrum, Kanban, Lean, XP, SAFe, DSDM, Crystal, and more.</p>
+  <p class="content-p">PMI-ACP is <strong>experience-based</strong> — you must prove real-world agile project experience before applying. This distinguishes it from certification-mill credentials you can earn in a weekend course. It is ISO/IEC 17024-accredited, meaning it meets internationally recognized personnel certification standards.</p>
+
+  ${callout('blue', '💡 What Makes It Unique', [
+    '<strong>Framework-agnostic:</strong> Proves you can work in any agile environment — Scrum shops, Kanban teams, SAFe enterprises',
+    '<strong>Experience-based:</strong> Requires documented real-world agile project hours',
+    '<strong>ISO-accredited:</strong> Only ISO 17024-accredited agile practitioner certification',
+    '<strong>Globally recognized:</strong> Specified in job postings by name in financial services, healthcare IT, government, and consulting'
+  ])}
+
+  <h2 class="content-h2" id="why-earn">Why Earn PMI-ACP?</h2>
+  ${table(['Benefit', 'Details'], [
+    ['💰 Higher Earnings', 'Agile-certified professionals earn 20–28% more on average (PMI Talent Triangle data)'],
+    ['🌍 Global Recognition', 'Recognized by employers in 200+ countries; ISO/IEC 17024 accredited'],
+    ['📈 Career Advancement', 'Opens paths to Agile Coach, Delivery Manager, Director-level roles'],
+    ['🏢 Industry Demand', '71% of organizations use agile often or always; most agile roles prefer certification'],
+    ['📚 Breadth of Knowledge', 'Validates Scrum + Kanban + Lean + XP + SAFe + DSDM — comprehensive coverage'],
+    ['🔄 3-Year Validity', 'Maintained with 30 agile-focused PDUs — incentivizes continuous learning'],
+  ])}
+
+  <h2 class="content-h2" id="vs-others">PMI-ACP vs. Other Certifications</h2>
+  ${table(['Certification', 'Focus', 'Experience Required?', 'ISO Accredited?', 'Best For'],
+    [
+      ['<strong>PMI-ACP</strong>', 'All agile frameworks', '✅ Yes — 2 years', '✅ Yes', 'PMs, leads, coaches needing broad agile credential'],
+      ['CSM (Scrum Alliance)', 'Scrum only', '❌ No', '❌ No', 'Entry-level Scrum practitioners'],
+      ['PSM (Scrum.org)', 'Scrum only', '❌ No (exam only)', '❌ No', 'Developers wanting to prove Scrum knowledge'],
+      ['SAFe Agilist', 'SAFe framework', '❌ No (2-day course)', '❌ No', 'Enterprise SAFe practitioners'],
+      ['ICP-ACC', 'Agile coaching', '❌ No (course-based)', '❌ No', 'Agile coaches and facilitators'],
+    ]
+  )}
+  `;
+}
+
+function renderEligibility() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 2</div>
+    <div class="hero-title">Eligibility Requirements</div>
+    <div class="hero-subtitle">Updated November 8, 2024. Know which pathway applies to you before applying.</div>
+  </div>
+
+  <h2 class="content-h2" id="requirements">Requirements (2025)</h2>
+  ${table(['Requirement', 'Details'], [
+    ['📚 Education', 'Secondary degree — high school diploma, GED, GCSE, or international equivalent. No bachelor\'s degree required.'],
+    ['🎓 Training', '<strong>28 contact hours</strong> of formal Agile education (increased from 21 hours Nov 8, 2024)'],
+    ['💼 Experience', 'Varies by pathway — see table below (minimum 1 year for fast-track, 2 years standard)'],
+    ['📝 Application', 'Online at pmi.org. ~20–25% of applicants are randomly audited. Keep all supporting docs.'],
+  ])}
+
+  ${callout('amber', '⚠️ Training Hours Change', [
+    '28 contact hours required effective November 8, 2024',
+    'Old 21-hour requirement was grandfathered only through March 31, 2025',
+    'PMI\'s own self-paced Study Hall course fulfills this requirement',
+    'Any PMI Authorized Training Partner course also qualifies'
+  ])}
+
+  <h2 class="content-h2" id="pathways">Experience Pathways</h2>
+  ${table(['Pathway', 'Required Agile Experience', 'Notes'], [
+    ['<strong>Standard</strong> (no qualifying certs)', '2 years (24 months) within last 5 years', 'Most common pathway for practitioners without prior agile certs'],
+    ['<strong>Fast-Track</strong> — Hold 3rd-party Agile cert (CSM, PSM, SAFe, etc.)', '1 year (12 months) within last 5 years', 'Your prior cert cuts the experience requirement in half'],
+    ['<strong>Fast-Track</strong> — PMI-recognized GAC Program', '1 year (12 months) within last 5 years', 'Graduate Agile Certificate from accredited university'],
+    ['<strong>PMP Holders</strong>', 'No additional experience required', 'Active PMP satisfies all experience requirements — just need 28 training hours'],
+  ])}
+
+  <p class="content-p"><strong>What counts as agile experience?</strong> Work on projects where you applied iterative/incremental delivery, agile ceremonies, agile artifacts, or agile values. Includes Scrum, Kanban, hybrid approaches, and formal SAFe programs.</p>
+
+  <h2 class="content-h2" id="fees">Fees & Maintenance</h2>
+  ${table(['Item', 'Amount / Detail'], [
+    ['PMI Member exam fee', '$348 USD (join PMI for $129/year — saves $48 on exam + free Agile Practice Guide)'],
+    ['Non-member exam fee', '$396 USD'],
+    ['1st/2nd retake fee (member)', '$150 USD'],
+    ['1st/2nd retake fee (non-member)', '$200 USD'],
+    ['Maximum retakes', '3 attempts within 1-year eligibility window'],
+    ['Certification validity', '3 years'],
+    ['Renewal PDUs', '30 PDUs every 3 years (must be agile-focused)'],
+    ['Renewal fee', '~$60 member / ~$150 non-member'],
+  ])}
+  `;
+}
+
+function renderExamFormat() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 3</div>
+    <div class="hero-title">Exam Format & Structure</div>
+    <div class="hero-subtitle">120 questions. 3 hours. 4 domains. Know exactly what you're walking into.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-val">120</span><div class="hero-stat-label">Total Qs</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">100</span><div class="hero-stat-label">Scored</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">20</span><div class="hero-stat-label">Pretest</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">3h</span><div class="hero-stat-label">Duration</div></div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="at-a-glance">At a Glance</h2>
+  ${table(['Attribute', 'Detail'], [
+    ['Total questions', '120 (100 scored + 20 unscored pretest items randomly embedded)'],
+    ['Time allowed', '3 hours (180 minutes) ≈ 90 seconds per question'],
+    ['Passing score', 'Domain-based performance levels — no raw % published. Aim for Above Target in all 4.'],
+    ['Calculator', 'On-screen calculator provided'],
+    ['Delivery', 'Pearson VUE: in-person testing center OR online proctored (OnVUE from home/office)'],
+    ['Retakes', 'Up to 3 attempts within 1-year eligibility period'],
+  ])}
+
+  <h2 class="content-h2" id="question-types">Question Types</h2>
+  ${table(['Type', 'Description', 'Frequency'], [
+    ['Scenario-based Multiple Choice', 'A real-world situation is described. You choose the BEST action from 4 options. Often 2-3 options seem reasonable.', '~85–90%'],
+    ['Drag-and-Drop / Ordering', 'Place Scrum ceremonies in order, match terms to definitions, sequence process steps.', '~5–8%'],
+    ['Matching', 'Match agile terms/roles/artifacts to their correct descriptions.', '~3–5%'],
+    ['Hotspot / Image-based', 'A burndown chart or Kanban board is shown — click on the correct area or identify the issue.', '~2–4%'],
+  ])}
+
+  ${callout('red', '🎯 The #1 Exam Secret', [
+    'The exam tests your MINDSET, not just your memory',
+    'Always ask: "What would a mature, servant-leader agile practitioner do here?"',
+    'The answer is NEVER: immediately escalate to management, skip collaboration, ignore the team',
+    'The answer is ALMOST ALWAYS: collaborate first, be transparent, serve the team, welcome change'
+  ])}
+
+  <h2 class="content-h2" id="domains">4 Domains Overview</h2>
+  <div class="domain-grid">
+    <div class="domain-card">
+      <div class="domain-pct" style="color:#f59e0b">~25%</div>
+      <div class="domain-name">Domain 1: Mindset</div>
+      <div class="domain-desc">Agile values, 12 principles, empirical process control, growth mindset, sustainable pace</div>
+      <div class="domain-bar"><div class="domain-bar-fill" style="width:25%;background:#f59e0b"></div></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-pct" style="color:#06d6a0">~30%</div>
+      <div class="domain-name">Domain 2: Leadership</div>
+      <div class="domain-desc">Servant leadership, Tuckman stages, conflict resolution, coaching, facilitation, EQ</div>
+      <div class="domain-bar"><div class="domain-bar-fill" style="width:30%;background:#06d6a0"></div></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-pct" style="color:#f472b6">~20%</div>
+      <div class="domain-name">Domain 3: Product</div>
+      <div class="domain-desc">Product vision, backlog, user stories, INVEST, prioritization, stakeholders, MVP</div>
+      <div class="domain-bar"><div class="domain-bar-fill" style="width:20%;background:#f472b6"></div></div>
+    </div>
+    <div class="domain-card">
+      <div class="domain-pct" style="color:#ef4444">~25%</div>
+      <div class="domain-name">Domain 4: Delivery</div>
+      <div class="domain-desc">Iteration planning, metrics, burndown/burnup, risk, CI/CD, TDD, velocity forecasting</div>
+      <div class="domain-bar"><div class="domain-bar-fill" style="width:25%;background:#ef4444"></div></div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="scoring">Scoring System</h2>
+  <p class="content-p">PMI does not publish a passing percentage. Instead, your performance report shows one of three levels for each domain:</p>
+  ${table(['Level', 'Meaning', 'Action'], [
+    ['🟢 Above Target', 'Excellent domain performance', 'Maintain this level'],
+    ['🟡 Target', 'Meets the passing standard', 'Good — reinforce knowledge'],
+    ['🔴 Below Target', 'Did not meet the domain standard', 'Must restudy this domain before retaking'],
+  ])}
+  <p class="content-p">To pass, you generally need Target or Above Target across all four domains. A single Below Target domain can cause failure even with strong performance elsewhere. This is why <strong>balanced preparation</strong> is critical.</p>
+  `;
+}
+
+function renderDomain1() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Domain 1 · ~25% of Exam</div>
+    <div class="hero-title">Mindset</div>
+    <div class="hero-subtitle">Agile values, principles, empirical process control, growth mindset. The philosophical foundation of everything agile.</div>
+  </div>
+
+  <h2 class="content-h2" id="manifesto-values">Agile Manifesto — 4 Core Values</h2>
+  <p class="content-p">Published February 2001 by 17 practitioners at Snowbird, Utah. Every PMI-ACP question rooted in values traces back here. Know them word-perfectly.</p>
+
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-card-over">Value 1 — We value more:</div>
+      <div class="value-card-left">Individuals and interactions</div>
+      <div class="value-card-right">over processes and tools</div>
+    </div>
+    <div class="value-card">
+      <div class="value-card-over">Value 2 — We value more:</div>
+      <div class="value-card-left">Working software</div>
+      <div class="value-card-right">over comprehensive documentation</div>
+    </div>
+    <div class="value-card">
+      <div class="value-card-over">Value 3 — We value more:</div>
+      <div class="value-card-left">Customer collaboration</div>
+      <div class="value-card-right">over contract negotiation</div>
+    </div>
+    <div class="value-card">
+      <div class="value-card-over">Value 4 — We value more:</div>
+      <div class="value-card-left">Responding to change</div>
+      <div class="value-card-right">over following a plan</div>
+    </div>
+  </div>
+
+  ${callout('amber', '⚠️ Critical Nuance — Exam Trap', [
+    '"While there is value in the items on the right, we value the items on the left MORE"',
+    'Agile does NOT eliminate documentation, contracts, plans, or tools — it just prioritizes the left side',
+    'WRONG answer: "Eliminate all documentation" — agile values documentation that serves the team',
+    'RIGHT answer: "Produce only documentation that adds value to the project"'
+  ])}
+
+  <h2 class="content-h2" id="principles">The 12 Agile Principles</h2>
+  <p class="content-p">These elaborate on how to live the manifesto values. Several appear directly on the exam. Know all 12.</p>
+
+  <div id="principles-list">
+    ${[
+      ['Satisfy customers through early and continuous delivery of valuable software.', 'Early and often delivery is always preferred. Delivering everything at once is anti-agile.'],
+      ['Welcome changing requirements, even late in development. Harness change for competitive advantage.', 'Change requests are NEVER rejected outright. Change goes to the backlog.'],
+      ['Deliver working software frequently, from weeks to months, with preference for the shorter timescale.', 'Shorter iterations = faster feedback = less risk.'],
+      ['Business people and developers must work together DAILY throughout the project.', 'Stakeholders are involved continuously, not just at milestones.'],
+      ['Build projects around motivated individuals. Give them environment and support — trust them.', 'Servant leadership in one sentence. Empower; don\'t micromanage.'],
+      ['The most efficient method of conveying information is face-to-face conversation.', 'Direct communication beats email chains and documentation.'],
+      ['Working software is the PRIMARY measure of progress.', 'No documents, no Gantt charts — working software is the scorecard.'],
+      ['Agile promotes sustainable development. Sponsors, devs, and users maintain constant pace indefinitely.', 'No overtime sprints. Sustainable pace = better long-term quality.'],
+      ['Continuous attention to technical excellence and good design enhances agility.', 'Technical debt and poor code reduce ability to change. TDD, pair programming, refactoring.'],
+      ['Simplicity — the art of maximizing the amount of work NOT done — is essential.', 'YAGNI. Build only what\'s needed now. Over-engineering is waste.'],
+      ['The best architectures, requirements, and designs emerge from self-organizing teams.', 'Management doesn\'t dictate technical solutions. The team owns HOW.'],
+      ['At regular intervals, the team reflects on how to be more effective, then tunes and adjusts.', 'This IS the retrospective. Continuous improvement is mandatory.'],
+    ].map((p, i) => `<div class="principle-item">
+      <div class="principle-num">${i+1}</div>
+      <div><div class="principle-text">${p[0]}</div><div class="principle-note">📌 Exam: ${p[1]}</div></div>
+    </div>`).join('')}
+  </div>
+
+  <h2 class="content-h2" id="empirical">Empirical Process Control</h2>
+  <p class="content-p">All agile frameworks are built on empirical process control — knowledge comes from experience, and decisions are based on what you observe. The three pillars:</p>
+  ${table(['Pillar', 'Meaning', 'Scrum Example'], [
+    ['🔍 Transparency', 'Everyone can see what is happening', 'Public sprint board, visible burndown, open backlog'],
+    ['🔬 Inspection', 'Regularly examine progress toward goals', 'Daily standup, sprint review, retrospective'],
+    ['🔄 Adaptation', 'When inspection reveals a problem, change something', 'Reprioritize backlog, adjust team process in retro'],
+  ])}
+
+  <h2 class="content-h2" id="growth-mindset">Growth Mindset</h2>
+  ${table(['Growth Mindset (Agile ✅)', 'Fixed Mindset (Anti-Agile ❌)'], [
+    ['Failure is a learning opportunity', 'Failure must be hidden or avoided'],
+    ['"We tried it and it didn\'t work — let\'s adapt"', '"We need to stick to the plan"'],
+    ['Feedback is actively sought', 'Feedback is threatening'],
+    ['Experiments encouraged (spikes)', 'Uncertainty avoided through over-planning'],
+    ['Continuous improvement (retrospectives)', '"If it ain\'t broke, don\'t fix it"'],
+  ])}
+  `;
+}
+
+function renderDomain2() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Domain 2 · ~30% of Exam — LARGEST DOMAIN</div>
+    <div class="hero-title">Leadership</div>
+    <div class="hero-subtitle">Servant leadership, Tuckman stages, conflict resolution, coaching, facilitation. Master this domain and you significantly boost your pass probability.</div>
+  </div>
+
+  <h2 class="content-h2" id="servant-leadership">Servant Leadership</h2>
+  <p class="content-p">Traditional PMs plan, direct, and control. Agile leaders <em>serve</em> the team. Robert Greenleaf coined this in 1970. It is foundational to Scrum, SAFe, and all agile frameworks.</p>
+  ${table(['Servant Leader Behavior', 'In Practice'], [
+    ['Listen actively', 'Full attention in conversations; reflect back what you heard'],
+    ['Empathize', 'Understand team member perspectives; check in on workload feelings'],
+    ['Persuade rather than command', 'Influence through vision and logic, not authority'],
+    ['Heal and build community', 'Foster psychological safety; team members can raise concerns freely'],
+    ['Steward resources', 'Protect team\'s time and capacity; say "no" to unreasonable requests'],
+    ['Commit to growth', 'Coach individuals to grow; create learning opportunities'],
+    ['Build community', 'Foster trust beyond just project deliverables'],
+  ])}
+
+  <h2 class="content-h2" id="tuckman">Tuckman\'s Team Development Model</h2>
+  <p class="content-p">High exam frequency. Knowing what the leader should DO at each stage is more important than just knowing the stage names.</p>
+  <div class="tuckman-grid">
+    <div class="tuckman-card" style="background:#eff6ff;border:1px solid #bfdbfe">
+      <div class="tuckman-stage" style="color:#1d4ed8">Forming</div>
+      <div class="tuckman-desc">Polite, uncertain, dependent on leader, avoid conflict, defer to authority</div>
+      <div class="tuckman-leader" style="color:#1d4ed8">Leader: DIRECT — provide structure, clarify roles</div>
+    </div>
+    <div class="tuckman-card" style="background:#fef2f2;border:1px solid #fecaca">
+      <div class="tuckman-stage" style="color:#dc2626">Storming</div>
+      <div class="tuckman-desc">Conflict, power struggles, challenging leadership, personality clashes</div>
+      <div class="tuckman-leader" style="color:#dc2626">Leader: COACH — facilitate resolution, high support</div>
+    </div>
+    <div class="tuckman-card" style="background:#f0fdf4;border:1px solid #bbf7d0">
+      <div class="tuckman-stage" style="color:#16a34a">Norming</div>
+      <div class="tuckman-desc">Trust building, norms established, collaboration improving, processes solidify</div>
+      <div class="tuckman-leader" style="color:#16a34a">Leader: MENTOR — step back, reinforce positives</div>
+    </div>
+    <div class="tuckman-card" style="background:#faf5ff;border:1px solid #e9d5ff">
+      <div class="tuckman-stage" style="color:#7c3aed">Performing</div>
+      <div class="tuckman-desc">Self-organizing, high-functioning, autonomous, minimal leader needed</div>
+      <div class="tuckman-leader" style="color:#7c3aed">Leader: ENABLE — empower, remove obstacles only</div>
+    </div>
+    <div class="tuckman-card" style="background:#fff7ed;border:1px solid #fed7aa">
+      <div class="tuckman-stage" style="color:#c2410c">Adjourning</div>
+      <div class="tuckman-desc">Project ends, team dissolves, emotional responses, loss of identity</div>
+      <div class="tuckman-leader" style="color:#c2410c">Leader: CELEBRATE — knowledge transfer, closure</div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="conflict">Conflict Management</h2>
+  <h3 class="content-h3">Speed Leas Conflict Levels</h3>
+  ${table(['Level', 'Signs', 'Response'], [
+    ['L1 — Problem to Solve', 'Rational discussion, data-focused, team cooperative', 'Facilitate collaborative problem solving'],
+    ['L2 — Disagreement', 'Cynical language ("I guess we\'ll save them again"), distancing', 'Coach individuals; reframe around shared goals'],
+    ['L3 — Contest', 'Win/lose mentality, personal attacks beginning, factions forming', 'Active mediation; find common ground urgently'],
+    ['L4 — Crusade', 'Entrenched camps, coalition building, mission to defeat other side', 'External facilitator; leadership intervention'],
+    ['L5 — World War', 'Complete polarization, destruction is goal', 'Organizational intervention; possible team restructure'],
+  ])}
+
+  <h3 class="content-h3">Conflict Resolution Techniques</h3>
+  ${table(['Technique', 'Approach', 'Best When'], [
+    ['Collaborating', 'Both parties work together for a fully satisfying solution (Win-Win)', 'Both relationship AND outcome matter — most preferred'],
+    ['Compromising', 'Both give up something (partial win for each)', 'Time pressure; both concerns are important'],
+    ['Smoothing', 'Emphasize agreement, downplay differences', 'Relationship more important than outcome right now'],
+    ['Forcing', 'Use authority to impose decision (Win-Lose)', 'Emergency only; damages relationship long-term'],
+    ['Avoiding', 'Delay or withdraw from conflict', 'Issue is trivial or parties need to cool down'],
+  ])}
+
+  <h2 class="content-h2" id="coaching">Coaching vs. Mentoring</h2>
+  ${table(['Coaching', 'Mentoring'], [
+    ['Non-directive — asks questions to help person find own answers', 'Directive — shares experience and knowledge'],
+    ['"What do you think you should do here?"', '"In my experience, here\'s what worked..."'],
+    ['Develops independent thinking', 'Transfers knowledge from mentor to mentee'],
+    ['Time-bounded, goal-specific', 'Longer-term relationship'],
+    ['Used with Performing teams', 'Used more in Forming/Storming stages'],
+  ])}
+
+  <h2 class="content-h2" id="facilitation">Facilitation Techniques</h2>
+  ${table(['Technique', 'Description'], [
+    ['Fist of Five', 'Consensus check: 5=fully agree → 1=strongly oppose. Surfaces degree of consensus, not just yes/no.'],
+    ['Dot Voting', 'Each person gets N dots to allocate to options. Highest dots = highest priority. Fast and visual.'],
+    ['Silent Brainstorming', 'Write ideas independently before group discussion. Prevents anchoring and "HiPPO" effect.'],
+    ['1-2-4-All', 'Think alone (1 min), pair (2 min), group of 4 (4 min), share all. Surfaces voices without groupthink.'],
+    ['Parking Lot', 'Capture off-topic items during meetings to address later. Keeps meetings focused.'],
+    ['Pre-Mortem', 'Before project: "Imagine we failed — what went wrong?" Surfaces risks early.'],
+    ['ORID', 'Objective → Reflective → Interpretive → Decisional. Structured conversation for deep reflection.'],
+  ])}
+  `;
+}
+
+function renderDomain3() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Domain 3 · ~20% of Exam</div>
+    <div class="hero-title">Product</div>
+    <div class="hero-subtitle">Product vision, backlog management, user stories, prioritization, stakeholder engagement. How value gets defined and organized.</div>
+  </div>
+
+  <h2 class="content-h2" id="user-stories">User Stories & INVEST</h2>
+  <p class="content-p">User stories are short descriptions of a feature from the user's perspective. They are <em>not</em> specifications — they are placeholders for conversation.</p>
+
+  ${callout('blue', '📝 Standard User Story Format', [
+    '<strong>As a</strong> [type of user],',
+    '<strong>I want</strong> [some goal or action],',
+    '<strong>So that</strong> [I receive some benefit or value].',
+    '',
+    '<em>Example: "As a returning customer, I want to save my payment details, so that I can check out faster on future visits."</em>'
+  ])}
+
+  <h3 class="content-h3">INVEST Criteria for Story Quality</h3>
+  ${table(['Letter', 'Criterion', 'Check'], [
+    ['<strong>I</strong>', 'Independent', 'Can this story be developed independently? Avoid tight ordering dependencies.'],
+    ['<strong>N</strong>', 'Negotiable', 'Story is NOT a fixed contract. Implementation details are open for discussion.'],
+    ['<strong>V</strong>', 'Valuable', 'Delivers real value to the user or business. If unclear, question whether it belongs.'],
+    ['<strong>E</strong>', 'Estimable', 'Team can estimate size. If not → spike it first, or break it down further.'],
+    ['<strong>S</strong>', 'Small', 'Fits in one sprint. Larger = Epic that needs splitting.'],
+    ['<strong>T</strong>', 'Testable', 'Clear acceptance criteria can be written. If not testable, not done-able.'],
+  ])}
+
+  <h2 class="content-h2" id="prioritization">Prioritization Techniques</h2>
+  ${table(['Technique', 'How It Works', 'Origin', 'Exam Note'], [
+    ['<strong>MoSCoW</strong>', 'Must Have / Should Have / Could Have / Won\'t Have this time', 'DSDM (1994)', 'Most-tested prioritization technique. Know all 4 categories.'],
+    ['<strong>Kano Model</strong>', 'Basic (must have), Performance (more=better), Excitement (delighters)', 'Noriaki Kano', 'Know 3 categories. Basic features missing = always dissatisfied regardless of excitement features.'],
+    ['<strong>WSJF</strong>', 'Cost of Delay ÷ Job Size. Higher score = higher priority', 'SAFe', 'Favors small, high-value items. Know the formula.'],
+    ['<strong>100-Point Method</strong>', 'Stakeholders each get 100 points to allocate across features', 'Various', 'Reveals consensus priorities through collaborative voting'],
+    ['<strong>Story Mapping</strong>', 'User journey horizontally + detail levels vertically → identify MVP slice', 'Jeff Patton', 'Identifies MVP and release slices. Connects stories to user journey.'],
+  ])}
+
+  <h2 class="content-h2" id="backlog">Backlog Management</h2>
+  ${table(['Topic', 'Key Points'], [
+    ['Backlog Refinement', 'Ongoing throughout sprint (~10% capacity). Split epics, write acceptance criteria, estimate stories, remove stale items. Keeps top of backlog sprint-ready.'],
+    ['Backlog Health', 'Top items: detailed + estimated + sprint-ready. Mid items: rough estimates. Bottom: large epics. No "zombie" stories (old, irrelevant).'],
+    ['Story Splitting', 'By workflow step, user type, happy path vs exceptions, data variations, platform, or CRUD operations.'],
+    ['Progressive Elaboration', 'Near-term: detailed estimates. 3-5 sprints: rough estimates. Far future: T-shirt sizes only. Detailed estimation of far-future items is waste.'],
+  ])}
+
+  <h2 class="content-h2" id="dod-dor">Definition of Done vs. Definition of Ready</h2>
+  ${table(['Definition of Ready (DoR)', 'Definition of Done (DoD)'], [
+    ['Criteria before story enters a sprint', 'Criteria before story is considered complete'],
+    ['Prevents starting half-baked stories', 'Ensures quality and consistency across all stories'],
+    ['Example: estimated, has acceptance criteria, dependencies identified', 'Example: coded, unit tests 80% coverage, peer reviewed, integrated, tested, PO accepted'],
+    ['Applied at sprint planning', 'Applied at sprint review / story acceptance'],
+    ['Created by team collaboratively', 'Created by team collaboratively — NEVER by management'],
+  ])}
+
+  <h2 class="content-h2" id="mvp">MVP & MMF Concepts</h2>
+  ${table(['Concept', 'Definition', 'Purpose'], [
+    ['<strong>MVP</strong> (Minimum Viable Product)', 'Smallest product to test a hypothesis with real customers', 'Validated learning — prove the idea works before big investment'],
+    ['<strong>MMF</strong> (Minimum Marketable Feature)', 'Smallest independently deployable feature with market value', 'Incremental delivery of shippable value'],
+    ['<strong>MMR</strong> (Minimum Marketable Release)', 'Smallest release that justifies going to market', 'Release planning — when is "enough" enough for launch?'],
+  ])}
+  `;
+}
+
+function renderDomain4() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Domain 4 · ~25% of Exam</div>
+    <div class="hero-title">Delivery</div>
+    <div class="hero-subtitle">Iteration planning, agile metrics, risk management, CI/CD, TDD. How agile teams actually execute and measure.</div>
+  </div>
+
+  <h2 class="content-h2" id="ceremonies">Scrum Ceremonies Deep Dive</h2>
+  ${table(['Ceremony', 'Who Attends', 'Time-box', 'Purpose & Key Points'], [
+    ['<strong>Sprint Planning</strong>', 'All 3 Scrum roles', '8h / 4-wk sprint', 'Part 1 (WHAT): PO presents top items. Part 2 (HOW): Team creates tasks. Output: Sprint backlog + sprint goal.'],
+    ['<strong>Daily Scrum</strong>', 'Development Team only', '15 minutes', 'What did I do? What will I do? Any blockers? NOT a status report to management. Scrum Master facilitates but doesn\'t answer for team.'],
+    ['<strong>Sprint Review</strong>', 'Team + PO + Stakeholders', '4h / 4-wk sprint', 'Demo working increment. Get stakeholder feedback. PO accepts/rejects stories. Output: Updated backlog.'],
+    ['<strong>Sprint Retrospective</strong>', 'Team + Scrum Master', '3h / 4-wk sprint', 'Reflect on PROCESS (not product). What went well? Improve? Output: Actionable improvements for next sprint.'],
+    ['<strong>Backlog Refinement</strong>', 'Team + PO', '~10% sprint capacity', 'Split epics, write acceptance criteria, estimate stories. Not a formal Scrum ceremony but universally practiced.'],
+  ])}
+
+  ${callout('amber', '⚠️ Review vs. Retrospective — Most Confused', [
+    'Sprint REVIEW: The PRODUCT. Who attends: Team + PO + Stakeholders',
+    'Sprint RETROSPECTIVE: The PROCESS. Who attends: Team + Scrum Master only',
+    'EXAM TRAP: Stakeholders attend Review — NOT Retrospective',
+    'EXAM TRAP: Retrospective is about HOW you work, not WHAT you built'
+  ])}
+
+  <h2 class="content-h2" id="metrics">Agile Metrics</h2>
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="metric-name">Velocity</div>
+      <div class="metric-formula">Story pts/sprint</div>
+      <div class="metric-good">✓ Stable trend</div>
+      <div class="metric-bad">✗ Declining/erratic</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">Burndown</div>
+      <div class="metric-formula">Remaining work</div>
+      <div class="metric-good">✓ Smooth decline</div>
+      <div class="metric-bad">✗ Flat line = blocked</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">Burnup</div>
+      <div class="metric-formula">Completed + scope</div>
+      <div class="metric-good">✓ Steady climb</div>
+      <div class="metric-bad">✗ Scope rising faster</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">Cycle Time</div>
+      <div class="metric-formula">Done − Start date</div>
+      <div class="metric-good">✓ Short, consistent</div>
+      <div class="metric-bad">✗ Long, variable</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">Lead Time</div>
+      <div class="metric-formula">Done − Request date</div>
+      <div class="metric-good">✓ Short</div>
+      <div class="metric-bad">✗ Long</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">WIP</div>
+      <div class="metric-formula">Items in progress</div>
+      <div class="metric-good">✓ At or below limit</div>
+      <div class="metric-bad">✗ Exceeding limit</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">CPI</div>
+      <div class="metric-formula">EV ÷ AC</div>
+      <div class="metric-good">✓ > 1.0</div>
+      <div class="metric-bad">✗ < 1.0</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">SPI</div>
+      <div class="metric-formula">EV ÷ PV</div>
+      <div class="metric-good">✓ > 1.0</div>
+      <div class="metric-bad">✗ < 1.0</div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="risk">Risk Management in Agile</h2>
+  ${table(['Practice', 'Description'], [
+    ['Risk-Adjusted Backlog', 'Risks are backlog items, prioritized alongside features. High-impact risks addressed early when mitigation cost is lowest.'],
+    ['Risk Burndown Chart', 'Tracks reduction in total risk exposure over time. Visible to all stakeholders.'],
+    ['Spike', 'Time-boxed (1-4 days) research to reduce uncertainty. Output = knowledge, not software. Enables proper estimation.'],
+    ['Iteration 0 / Inception', 'Initial sprint for architecture setup, infrastructure, initial backlog, team norms — reduces large unknowns before delivery.'],
+    ['Rolling Wave Planning', 'Near-term: detailed plan. Far-term: high-level only. Refine as you learn more.'],
+    ['Iterative Delivery as Risk Mitigation', 'Short iterations mean course corrections happen frequently — inherent risk reduction through feedback.'],
+  ])}
+
+  <h2 class="content-h2" id="cicd">CI/CD & TDD</h2>
+  ${table(['Practice', 'Description'], [
+    ['<strong>Continuous Integration (CI)</strong>', 'Developers merge code to shared repo frequently (daily+). Automated builds and tests run immediately. Prevents "integration hell."'],
+    ['<strong>Continuous Delivery</strong>', 'Every change is automatically built, tested, and prepared for release. Humans approve before deploying to production.'],
+    ['<strong>Continuous Deployment</strong>', 'Every passing change auto-deploys to production. Requires extremely high automated test confidence.'],
+    ['<strong>TDD (Red-Green-Refactor)</strong>', '1. Write failing test (RED) → 2. Write minimum code to pass (GREEN) → 3. Improve code without changing behavior (REFACTOR). Produces high test coverage by design.'],
+    ['<strong>BDD</strong>', 'Given-When-Then tests written in business language. Collaboration between PO + developers + testers.'],
+  ])}
+  `;
+}
+
+function renderFrameworks() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 5</div>
+    <div class="hero-title">Agile Frameworks</div>
+    <div class="hero-subtitle">Know each framework's core concepts AND how to compare them in scenario questions. The exam tests differentiation, not just memorization.</div>
+  </div>
+
+  <div class="framework-grid">
+    <div class="framework-card">
+      <div class="fw-icon" style="background:#eff6ff">🔄</div>
+      <div class="fw-name">Scrum</div>
+      <div class="fw-tagline">Iterative sprints + 3 roles</div>
+      <div class="fw-desc">Fixed-length sprints (1-4 wks). 3 roles: PO, SM, Dev Team. 3 artifacts: Product Backlog, Sprint Backlog, Increment. 5 events.</div>
+    </div>
+    <div class="framework-card">
+      <div class="fw-icon" style="background:#f0fdf4">🎯</div>
+      <div class="fw-name">Kanban</div>
+      <div class="fw-tagline">Continuous flow + WIP limits</div>
+      <div class="fw-desc">No sprints, no fixed roles, no mandatory ceremonies. WIP limits. Pull-based. Cumulative flow. Best for support/ops teams.</div>
+    </div>
+    <div class="framework-card">
+      <div class="fw-icon" style="background:#fff7ed">⚡</div>
+      <div class="fw-name">Lean</div>
+      <div class="fw-tagline">Eliminate waste</div>
+      <div class="fw-desc">7 wastes. Value stream mapping. Systems thinking. "Decide as late as possible." Originated in Toyota Production System.</div>
+    </div>
+    <div class="framework-card">
+      <div class="fw-icon" style="background:#faf5ff">🧑‍💻</div>
+      <div class="fw-name">XP</div>
+      <div class="fw-tagline">Technical excellence</div>
+      <div class="fw-desc">TDD, pair programming, collective ownership, CI, 40-hour week. Values: Simplicity, Communication, Feedback, Courage, Respect.</div>
+    </div>
+    <div class="framework-card">
+      <div class="fw-icon" style="background:#f0f4ff">🏢</div>
+      <div class="fw-name">SAFe</div>
+      <div class="fw-tagline">Enterprise scaling</div>
+      <div class="fw-desc">Agile Release Train (ART). PI Planning every 8-12 weeks. 4 levels: Team → Program → Large Solution → Portfolio.</div>
+    </div>
+    <div class="framework-card">
+      <div class="fw-icon" style="background:#fef2f2">🏛️</div>
+      <div class="fw-name">DSDM</div>
+      <div class="fw-tagline">Fix time/cost, vary scope</div>
+      <div class="fw-desc">Origin of MoSCoW. 8 core principles. Timeboxing is central. Strong governance. Used in UK public sector.</div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="scrum">Scrum — Complete Reference</h2>
+  ${table(['Roles', 'Responsibilities'], [
+    ['<strong>Product Owner</strong>', 'Owns + prioritizes Product Backlog. Represents customer/business. Accepts/rejects sprint output. Writes/approves acceptance criteria. NOT a PM.'],
+    ['<strong>Scrum Master</strong>', 'Servant-leader. Facilitates all events. Removes impediments. Coaches team on Scrum. Protects team from interruptions. NO authority over team\'s work.'],
+    ['<strong>Development Team</strong>', 'Self-organizing. Cross-functional. 3-9 members. Owns HOW work is done. Estimates stories. Management cannot direct technical solutions.'],
+  ])}
+
+  <h2 class="content-h2" id="kanban">Kanban — 6 Core Practices</h2>
+  <ul class="tip-list">
+    <li class="tip-item"><span class="tip-icon">1️⃣</span><span class="tip-text"><strong>Visualize the Workflow:</strong> Kanban board showing all stages. Makes work and bottlenecks visible to everyone.</span></li>
+    <li class="tip-item"><span class="tip-icon">2️⃣</span><span class="tip-text"><strong>Limit WIP:</strong> Max items per column. When a column hits limit, pull from earlier stages before starting new work.</span></li>
+    <li class="tip-item"><span class="tip-icon">3️⃣</span><span class="tip-text"><strong>Manage Flow:</strong> Monitor and optimize flow. Identify bottlenecks (widening CFD bands).</span></li>
+    <li class="tip-item"><span class="tip-icon">4️⃣</span><span class="tip-text"><strong>Make Policies Explicit:</strong> Write down entry/exit criteria for each column. Shared understanding prevents confusion.</span></li>
+    <li class="tip-item"><span class="tip-icon">5️⃣</span><span class="tip-text"><strong>Implement Feedback Loops:</strong> Regular cadences even without sprints.</span></li>
+    <li class="tip-item"><span class="tip-icon">6️⃣</span><span class="tip-text"><strong>Improve Collaboratively:</strong> Evidence-based, incremental process improvements.</span></li>
+  </ul>
+
+  <h2 class="content-h2" id="lean">Lean — 7 Wastes (TIMWOOD)</h2>
+  ${table(['Waste', 'Software Example'], [
+    ['<strong>T</strong>ransportation / Handoffs', 'Passing work between teams without collaboration; each handoff loses information'],
+    ['<strong>I</strong>nventory / Extra Features', 'Features built that nobody asked for; backlog items that will never be built'],
+    ['<strong>M</strong>otion (Relearning)', 'Rediscovering knowledge not documented; duplicate documentation (BRD → user stories)'],
+    ['<strong>W</strong>aiting (Delays)', 'Developer waiting for test environment; QA waiting for build; approvals pending'],
+    ['<strong>O</strong>ver-processing', 'Writing detailed specs before anything is known; unnecessary processes'],
+    ['<strong>O</strong>ver-production', 'Building features before they\'re needed (YAGNI violation)'],
+    ['<strong>D</strong>efects', 'Bugs, rework, incorrect requirements — cost to build AND cost to fix'],
+  ])}
+
+  <h2 class="content-h2" id="xp">XP — Key Practices</h2>
+  ${table(['Practice', 'Description'], [
+    ['<strong>TDD</strong> (Test-Driven Development)', 'Red (write failing test) → Green (write minimum code) → Refactor. High coverage by design.'],
+    ['<strong>Pair Programming</strong>', 'Two devs, one machine. Driver types; navigator reviews. Reduces bugs, spreads knowledge.'],
+    ['<strong>Collective Code Ownership</strong>', 'Any developer can improve any part of the codebase. Eliminates knowledge silos.'],
+    ['<strong>Continuous Integration</strong>', 'Commit code multiple times/day. Automated tests run immediately.'],
+    ['<strong>Refactoring</strong>', 'Improve code structure without changing behavior. Keeps technical debt low.'],
+    ['<strong>40-Hour Week</strong>', 'No sustained overtime. Tired developers produce poor quality code.'],
+    ['<strong>On-Site Customer</strong>', 'Real customer rep physically available full-time to answer questions.'],
+  ])}
+
+  <h2 class="content-h2" id="safe">SAFe — Key Events</h2>
+  ${table(['Event', 'Description'], [
+    ['<strong>PI Planning</strong>', '2-day face-to-face planning. All teams on ART plan together. Align on vision, identify dependencies, set PI objectives. MOST TESTED SAFe event.'],
+    ['<strong>System Demo</strong>', 'End of each sprint, all teams demonstrate integrated work. Shows combined increment.'],
+    ['<strong>Inspect & Adapt (I&A)</strong>', 'End of each PI. Program-level retrospective + problem-solving workshop.'],
+    ['<strong>Scrum of Scrums</strong>', 'Cross-team sync. One rep per team meets to coordinate and unblock dependencies.'],
+  ])}
+
+  <h2 class="content-h2" id="other-fw">DSDM, Crystal & Disciplined Agile</h2>
+  ${table(['Framework', 'Key Facts'], [
+    ['<strong>DSDM</strong>', '8 principles incl. "Never compromise quality." Origin of MoSCoW. Fixes time/cost, varies scope. Strong governance. Common in UK public sector.'],
+    ['<strong>Crystal Clear</strong>', '1-6 developers. Minimal overhead. Crystal family scales by team size: Clear → Yellow → Orange → Red → Dark.'],
+    ['<strong>Disciplined Agile (DA)</strong>', 'PMI-owned toolkit (not a framework). "Choose your WoW" — picks best practices from all frameworks for your context.'],
+  ])}
+  `;
+}
+
+function renderTools() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 6</div>
+    <div class="hero-title">Tools & Techniques</div>
+    <div class="hero-subtitle">Estimation, retrospectives, information radiators, facilitation. The practical toolkit every agile practitioner needs.</div>
+  </div>
+
+  <h2 class="content-h2" id="estimation">Estimation Techniques</h2>
+  ${table(['Technique', 'How It Works', 'Best For'], [
+    ['<strong>Planning Poker</strong>', 'Cards revealed simultaneously (Fibonacci: 1,2,3,5,8,13,21...). Outliers explain. Discuss. Consensus.', 'Sprint planning; detailed story sizing'],
+    ['<strong>T-Shirt Sizing</strong>', 'Relative sizes: XS/S/M/L/XL/XXL. Fast, no numbers needed.', 'Large backlogs; early release planning'],
+    ['<strong>Affinity Estimation</strong>', 'Team silently places stories left→right by size. Assign ranges to groups.', 'Very large backlogs (50+ stories)'],
+    ['<strong>PERT (3-Point)</strong>', '(Optimistic + 4×MostLikely + Pessimistic) ÷ 6 = expected duration', 'When time estimates needed for scheduling'],
+    ['<strong>Spike</strong>', 'Time-boxed research to reduce uncertainty. Output = knowledge, not software.', 'Unknown technology; unclear requirements'],
+  ])}
+
+  <h2 class="content-h2" id="retro-formats">Retrospective Formats</h2>
+  ${table(['Format', 'Structure', 'Best Used When'], [
+    ['<strong>Start / Stop / Continue</strong>', 'What should we start? Stop? Continue?', 'Regular retrospectives; any team stage'],
+    ['<strong>4 Ls</strong>', 'Liked, Learned, Lacked, Longed For', 'End of release or major milestone'],
+    ['<strong>5 Whys</strong>', 'Pick a problem. Ask "why?" 5 times to reach root cause.', 'Recurring problems with unclear root cause'],
+    ['<strong>Sailboat</strong>', 'Wind (helps), Anchors (slows), Rocks (risks ahead), Islands (goals)', 'Mid-project assessment; visualizing multiple dimensions'],
+    ['<strong>Mad/Sad/Glad</strong>', 'Team shares what made them mad, sad, or glad', 'Team building; surfacing emotional dynamics'],
+    ['<strong>Lean Coffee</strong>', 'Write topics, vote, time-boxed discussion of top voted items', 'Teams wanting democratic, emergent topics'],
+    ['<strong>Timeline</strong>', 'Place sprint events on timeline; annotate with feelings', 'Longer sprints; complex sprints with many events'],
+  ])}
+
+  <h2 class="content-h2" id="info-radiators">Information Radiators</h2>
+  <p class="content-p">Information radiators are large, visible displays of project information readable at a glance — no asking required. Core to agile transparency.</p>
+  ${table(['Radiator', 'What It Shows'], [
+    ['Scrum/Task Board', 'Sprint stories + tasks in columns: To Do, In Progress, Done. Assignments visible.'],
+    ['Burndown Chart', 'Daily remaining work in sprint. Shows if on track.'],
+    ['Burnup Chart', 'Work completed vs total scope. Scope changes visible as scope line moves.'],
+    ['Kanban Board', 'All workflow states + WIP limits. Bottlenecks visible immediately.'],
+    ['Cumulative Flow Diagram', 'Flow through each workflow state over time. Widening band = bottleneck.'],
+    ['Risk Burndown', 'Reduction in risk exposure over time.'],
+    ['Release Roadmap', 'High-level plan showing feature targets per release.'],
+  ])}
+  `;
+}
+
+function renderFormulas() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 7</div>
+    <div class="hero-title">Key Formulas & Calculations</div>
+    <div class="hero-subtitle">While PMI-ACP is primarily scenario-based, you may encounter calculation questions — especially EVM, PERT, and velocity forecasting.</div>
+  </div>
+
+  <h2 class="content-h2" id="velocity-formulas">Velocity & Forecasting</h2>
+  <div class="formula-card">
+    <div class="formula-name">Average Velocity</div>
+    <div class="formula-expr">Average Velocity = Σ(story points per sprint) ÷ Number of sprints</div>
+    <div class="formula-note">Use last 3–5 sprints. Example: (38+42+36+44) ÷ 4 = 40 pts/sprint</div>
+  </div>
+  <div class="formula-card">
+    <div class="formula-name">Sprints to Complete</div>
+    <div class="formula-expr">Sprints needed = Remaining story points ÷ Average velocity</div>
+    <div class="formula-note">Example: 200 pts ÷ 40 pts/sprint = 5 sprints remaining. Always round UP.</div>
+  </div>
+  <div class="formula-card">
+    <div class="formula-name">Team Capacity</div>
+    <div class="formula-expr">Capacity = Team members × Sprint days × Hours/day × Focus factor</div>
+    <div class="formula-note">Focus factor = 70–80% (accounts for meetings, interruptions). Example: 6 × 10 × 8 × 0.75 = 360 hours</div>
+  </div>
+
+  <h2 class="content-h2" id="evm">Earned Value Management (EVM)</h2>
+  ${table(['Metric', 'Formula', 'Good', 'Bad'], [
+    ['<strong>EV</strong> (Earned Value)', '% complete × BAC', '> PV', '< PV'],
+    ['<strong>PV</strong> (Planned Value)', 'Planned % × BAC', '—', '—'],
+    ['<strong>CV</strong> (Cost Variance)', 'EV − AC', 'Positive', 'Negative = over budget'],
+    ['<strong>SV</strong> (Schedule Variance)', 'EV − PV', 'Positive', 'Negative = behind schedule'],
+    ['<strong>CPI</strong>', 'EV ÷ AC', '> 1.0', '< 1.0 = over budget'],
+    ['<strong>SPI</strong>', 'EV ÷ PV', '> 1.0', '< 1.0 = behind schedule'],
+    ['<strong>EAC</strong>', 'BAC ÷ CPI', 'Lower than BAC', 'Higher than BAC'],
+    ['<strong>ETC</strong>', 'EAC − AC', '—', '—'],
+    ['<strong>VAC</strong>', 'BAC − EAC', 'Positive = under budget', 'Negative = over budget'],
+  ])}
+
+  ${callout('navy', '📊 EVM Worked Example', [
+    'Project BAC = $200,000. Planned to be 50% done. Actually 40% done. Spent $110,000.',
+    'PV = 50% × $200,000 = $100,000',
+    'EV = 40% × $200,000 = $80,000',
+    'AC = $110,000',
+    'CV = $80K − $110K = −$30,000 (OVER BUDGET)',
+    'SV = $80K − $100K = −$20,000 (BEHIND SCHEDULE)',
+    'CPI = $80K ÷ $110K = 0.73 (spending $1.37 per $1 of value)',
+    'EAC = $200K ÷ 0.73 = $273,973 (total forecast cost at this efficiency)'
+  ])}
+
+  <h2 class="content-h2" id="pert">PERT — Three-Point Estimation</h2>
+  <div class="formula-card">
+    <div class="formula-name">Expected Duration (te)</div>
+    <div class="formula-expr">te = (Optimistic + 4 × Most Likely + Pessimistic) ÷ 6</div>
+    <div class="formula-note">Most Likely counts 4× because it's the most likely outcome. Example: (2 + 4×5 + 14) ÷ 6 = 36 ÷ 6 = 6 days</div>
+  </div>
+  <div class="formula-card">
+    <div class="formula-name">Standard Deviation (σ)</div>
+    <div class="formula-expr">σ = (Pessimistic − Optimistic) ÷ 6</div>
+    <div class="formula-note">Example: (14 − 2) ÷ 6 = 2 days. Higher σ = more uncertainty in the estimate.</div>
+  </div>
+
+  <h2 class="content-h2" id="kanban-formulas">Kanban & Little's Law</h2>
+  <div class="formula-card">
+    <div class="formula-name">Little's Law</div>
+    <div class="formula-expr">Cycle Time = WIP ÷ Throughput</div>
+    <div class="formula-note">If 10 items in progress and team completes 2/day → Cycle time = 10 ÷ 2 = 5 days. REDUCE WIP → REDUCE CYCLE TIME.</div>
+  </div>
+  `;
+}
+
+function renderQuestions() {
+  const qData = [
+    // MINDSET
+    { id: 'q-mindset', section: 'Domain 1: Mindset Questions (Q1–Q25)', qs: [
+      [1, "A project manager says, 'We won't need documentation in our agile project.' How should the agile coach respond?", ["A. Agree — agile eliminates all documentation","B. Explain that agile values working software OVER comprehensive documentation, but documentation still has value when it serves the team","C. Suggest using waterfall documentation alongside agile","D. Check with the PMO for documentation standards"], "B", "The Agile Manifesto says 'over' not 'instead of.' Documentation that serves the team is valuable. Eliminating ALL documentation is reckless, not agile."],
+      [2, "A team member says 'we should build the reporting module now — we'll definitely need it in the future.' The PO is unsure. Which principle applies?", ["A. Principle 9: Continuous attention to technical excellence","B. Principle 10: Simplicity — the art of maximizing the work NOT done — is essential","C. Principle 3: Deliver working software frequently","D. Principle 2: Welcome changing requirements"], "B", "YAGNI (You Ain't Gonna Need It). Build only what's needed now. Building 'just in case' is over-production — a Lean waste."],
+      [3, "Midway through a sprint, a competitor releases a product making 3 planned features obsolete. What should the Scrum Master do?", ["A. Allow immediate replacement since agile welcomes change","B. Refuse any changes — the sprint backlog is locked","C. Discuss with PO and team: if sprint goal is obsolete the sprint can be cancelled; otherwise reprioritize next sprint","D. Escalate to the project sponsor"], "C", "Agile welcomes change (Principle 2). A sprint can be cancelled ONLY by the PO when the sprint goal is no longer valid. Otherwise complete the sprint and reprioritize in the next one."],
+      [4, "Which statement BEST describes the agile approach to upfront design?", ["A. All architecture must be fully designed before any development","B. Architecture is irrelevant — it emerges entirely from coding","C. Just enough upfront design is done to reduce risk, with architecture evolving as the team learns more","D. Architecture is always deferred until after the first release"], "C", "Agile supports 'just enough' architecture. Iteration 0 often does initial architecture work. Neither all-upfront nor none is the right answer."],
+      [5, "A team is consistently working 60-hour weeks to meet sprint commitments and quality is declining. Which principle is being violated?", ["A. Principle 1: Early and continuous delivery of valuable software","B. Principle 7: Working software is the primary measure","C. Principle 8: Agile promotes sustainable development at a constant pace indefinitely","D. Principle 12: Reflect at regular intervals"], "C", "Sustained overtime leads to burnout, quality decline, and turnover. Principle 8 is the sustainable pace principle."],
+      [6, "What does 'empirical process control' mean in agile?", ["A. Using detailed upfront plans to control outcomes","B. Making decisions based on observation and real data — inspect what's happening and adapt accordingly","C. Controlling projects through strict change management","D. Using mathematical models to predict outcomes"], "B", "Empirical = knowledge from experience. Decisions based on real observation (inspection), not plans. Scrum is built entirely on this concept."],
+      [7, "The three pillars of Scrum are:", ["A. Sprint, Backlog, and Velocity","B. Transparency, Inspection, and Adaptation","C. Planning, Execution, and Retrospection","D. Product Owner, Scrum Master, and Development Team"], "B", "The three pillars of empirical process control underpinning Scrum: Transparency (everyone sees reality), Inspection (regularly examine), Adaptation (change when inspection reveals a problem)."],
+      [8, "An organization needs extensive compliance documentation before any code is written. What is the best agile approach?", ["A. Refuse to use agile — it's incompatible with compliance","B. Apply agile delivery practices while creating required compliance documentation in parallel — tailor the approach","C. Eliminate all documentation requirements","D. Use waterfall for documentation and agile only for coding"], "B", "Agile can be tailored to regulated environments. Many healthcare IT and financial services teams use agile successfully with compliance documentation as part of the Definition of Done."],
+    ]},
+    // LEADERSHIP
+    { id: 'q-leadership', section: 'Domain 2: Leadership Questions (Q26–Q55)', qs: [
+      [26, "A new agile team is polite and cooperative but defers to the most senior developer. What Tuckman stage, and what should the SM do?", ["A. Performing — no action needed","B. Norming — team is establishing patterns","C. Forming — provide structure, set clear expectations, create safety for authentic communication","D. Storming — give more autonomy"], "C", "Superficial politeness and deference to authority are classic Forming behaviors. The SM should provide structure and create psychological safety."],
+      [27, "Two team members get into a heated personal argument and refuse to work together. What conflict level?", ["A. Level 1 — Problem to Solve","B. Level 2 — Disagreement","C. Level 3 — Contest","D. Level 4 — Crusade"], "C", "Personal attacks and refusal to collaborate = Level 3. 'Winning' is now more important than solving the problem. Active mediation required."],
+      [28, "A team that was Performing loses two senior members and gains three juniors. What will likely happen?", ["A. Team continues performing — established processes remain","B. Team may regress to Forming or Storming and need re-norming","C. New members will quickly adapt to the culture","D. Performance dips then automatically recovers"], "B", "Team composition changes reset team dynamics. New members don't know working agreements or norms. The team needs to re-Form and re-Storm before re-Norming."],
+      [29, "What is the PRIMARY difference between servant leadership and traditional project management?", ["A. Servant leaders have less authority","B. Servant leaders focus on serving the team's needs to enable performance rather than directing and controlling","C. Servant leaders don't set goals or timelines","D. Servant leaders are only responsible for morale"], "B", "PM-ACP defines servant leadership as enabling team success by removing obstacles, coaching, and fostering self-organization — not commanding work."],
+      [30, "A stakeholder approaches a developer directly and asks them to add a feature without going through the PO. What should the developer do?", ["A. Add the feature — stakeholder is a key customer","B. Politely decline and direct the stakeholder to the Product Owner to add to the backlog","C. Add the feature in personal time","D. Escalate to the Scrum Master immediately"], "B", "All scope changes go through the PO who owns the backlog. Direct developer requests bypass prioritization and create scope creep."],
+      [31, "The team retrospective produces the same improvement items for 3 sprints with no follow-through. Most effective fix?", ["A. Cancel retrospectives","B. Add retrospective action items to the sprint backlog as actual stories so they get attention alongside features","C. Assign one person to follow up on each item","D. Increase retrospective frequency to twice per sprint"], "B", "Treating improvement actions as first-class backlog items is the most effective technique. When they compete for priority alongside features, they get done."],
+      [32, "During a sprint, a developer is blocked waiting for an external API. What should the Scrum Master do?", ["A. Accept it — external dependencies can't be managed","B. Actively work to unblock: escalate with external team, explore if developer can mock the API, find alternative work","C. Remove the story from the sprint","D. Ask the PO to deprioritize"], "B", "Removing impediments — including external dependencies — is a core SM responsibility. Multiple actions simultaneously: escalate AND find a workaround."],
+      [33, "What does 'psychological safety' mean in an agile team?", ["A. Physical safety protocols","B. An environment where team members can speak up, take risks, admit mistakes without fear of punishment","C. A policy preventing team members from being fired","D. Confidentiality agreements"], "B", "Amy Edmondson's research. Psychological safety is foundational to retrospectives, experimentation, and self-organization. Without it, agile fails."],
+    ]},
+    // PRODUCT
+    { id: 'q-product', section: 'Domain 3: Product Questions (Q56–Q75)', qs: [
+      [56, "Which user story BEST follows INVEST criteria?", ["A. 'Improve system performance'","B. 'As a registered user, I want to reset my password via email, so that I can regain access if I forget credentials'","C. 'The system should be fast and secure'","D. 'Implement all database changes required for the new feature set'"], "B", "B follows the correct format and passes all INVEST checks: Independent, Negotiable, Valuable (solves real problem), Estimable, Small (fits sprint), Testable (clear acceptance criteria possible)."],
+      [57, "The PO wants to prioritize using the Kano Model. Which feature type should be prioritized HIGHEST?", ["A. Excitement features — they wow customers","B. Performance features — more is better","C. Basic/Threshold features — their absence causes dissatisfaction regardless of other features","D. All types equally"], "C", "Kano hierarchy: (1) Basic first — table stakes, absence destroys satisfaction. Only after basics are addressed do performance and excitement features add value."],
+      [58, "A story needs a spike. Which situation BEST justifies creating one?", ["A. The PO wants a more accurate estimate","B. The team cannot estimate a story because the technology is completely unfamiliar","C. The story is too large for one sprint","D. The acceptance criteria are unclear"], "B", "A spike is specifically for technical uncertainty that prevents estimation. The spike produces knowledge (not software), which then enables proper estimation of the original story."],
+      [59, "What is the primary role of acceptance criteria in user stories?", ["A. To estimate story size","B. To define conditions the PO must verify are satisfied before accepting the story as complete","C. To list technical implementation tasks","D. To document requirements for the project file"], "B", "Acceptance criteria answer 'how will we know it's done?' Written from user/business perspective. Form the basis for acceptance testing."],
+      [60, "A Product Owner must choose between: Feature A ($5K cost, $20K/month delay cost) vs Feature B ($15K cost, $15K/month delay cost). Using WSJF, which wins?", ["A. Feature A — WSJF score is higher","B. Feature B — WSJF score is higher","C. Feature A — it costs less","D. Feature B — it has higher value"], "A", "WSJF = Cost of Delay ÷ Job Size. Feature A: 20÷5=4.0. Feature B: 15÷15=1.0. Feature A prioritized. WSJF favors small, high-value items."],
+      [61, "What is a 'Minimum Viable Product' (MVP)?", ["A. The minimum features required for the product to work","B. The smallest version of a product to test a hypothesis and learn from real customers","C. A prototype with no functionality","D. The backlog after removing nice-to-haves"], "B", "MVP (Eric Ries, Lean Startup) is about learning, not minimalism. Test the riskiest assumption with the smallest investment possible. Goal = validated learning."],
+      [62, "The team built exactly what the stakeholder requested but it doesn't solve their business problem. What process failure occurred?", ["A. The team built the wrong feature","B. The PO failed to understand the underlying business need and translated a stated requirement without validating the business value","C. Sprint review should have caught this","D. QA should have caught the business value issue"], "B", "The gap between stated requirements and actual business needs. The 'so that' clause in user stories exists precisely to capture this. The PO's job is to understand WHY, not just WHAT."],
+    ]},
+    // DELIVERY
+    { id: 'q-delivery', section: 'Domain 4: Delivery Questions (Q76–Q100)', qs: [
+      [76, "A burndown chart shows a flat line for 3 consecutive days mid-sprint. What does this indicate?", ["A. Team is on track — flat lines are normal","B. The team is blocked or carrying undetected impediments — investigate immediately","C. Burndown chart needs recalibrating","D. Add more stories to maintain momentum"], "B", "Flat burndown = no work moving to done. Signals blockers, unclear acceptance criteria, or rework. This is exactly what the daily standup should surface."],
+      [77, "Team completes 38, 34, 42, 40, 36 story points in 5 sprints. Remaining backlog = 180 pts. How many sprints needed?", ["A. Velocity=36, Sprints=5","B. Velocity=38, Sprints≈5 (4.73 rounds up)","C. Velocity=40, Sprints=4.5","D. Velocity=38, Sprints=4"], "B", "Average velocity = (38+34+42+40+36)÷5 = 190÷5 = 38. Sprints = 180÷38 = 4.73 → rounds UP to 5. Always round up for sprint counts."],
+      [78, "When would you use a burnup chart over a burndown chart?", ["A. Burndown is always more accurate","B. Use burnup when scope changes are frequent — it shows completed work against total scope, making scope additions visibly clear","C. Burnup for sprints; burndown for releases","D. They show the same information"], "B", "Burnup has two lines — completed work and total scope. Scope additions visibly move the scope line up. Burndown cannot show scope changes clearly."],
+      [79, "A team's CFD shows the 'In Testing' band widening over 2 weeks. What does this indicate?", ["A. Team is testing more features — positive","B. Work is accumulating in testing — bottleneck. Team should swarm on testing to clear the queue","C. Development team is too fast","D. WIP limit is too high"], "B", "Widening band in CFD = bottleneck in that stage. Team should swarm (focus all available capacity), pause new development if needed, and investigate root cause."],
+      [80, "A project has BAC=$200K, PV=$100K, EV=$80K, AC=$110K. What is CPI?", ["A. 1.1 — under budget","B. 0.73 — over budget, spending $1.37 per $1 of value","C. 0.89 — slightly over budget","D. 1.25 — under budget"], "B", "CPI = EV÷AC = $80K÷$110K = 0.727 ≈ 0.73. Below 1.0 = over budget. For every $1 spent, only $0.73 of value is delivered."],
+      [81, "Which of the following BEST describes a 'spike' in agile?", ["A. Sprint focused entirely on technical debt","B. Time-boxed research to answer a specific question and reduce uncertainty — knowledge, not software, is the output","C. Emergency sprint to fix critical bugs","D. Planning session for a new feature"], "B", "A spike is time-boxed (1-4 days), answers a specific question, and produces knowledge as output. The knowledge enables proper estimation of the related story."],
+      [82, "In SAFe, what is the primary purpose of PI Planning?", ["A. Estimate all stories in next 12 sprints","B. Align multiple agile teams to shared vision, identify dependencies, and set PI objectives","C. Select which team members work on each feature","D. Create the release backlog"], "B", "PI Planning is SAFe's heartbeat. 2-day event for all ART teams to plan together, align on vision, identify cross-team dependencies, commit to PI objectives."],
+      [83, "In Scrum, who has authority to cancel a sprint?", ["A. Scrum Master","B. Development Team by consensus","C. Product Owner","D. Senior management"], "C", "Only the Product Owner can cancel a sprint, and only when the Sprint Goal has become obsolete. Sprint cancellations are rare. Management cannot cancel sprints."],
+      [84, "A release burnup chart shows the scope line rising faster than the completed work line for 3 sprints. What should the PO do?", ["A. Velocity is good — scope increases show product growth","B. Scope creep is occurring — evaluate: trim scope, add capacity, or accept a later release date","C. Burnup chart is measuring incorrectly","D. This is normal — scope always grows in agile"], "B", "Rising scope line outpacing completed work = the release date will slip or scope must be cut. PO has 3 levers: trim scope, add capacity, or push the release date."],
+    ]},
+    // FRAMEWORKS
+    { id: 'q-frameworks', section: 'Framework Comparison Questions (Q101–Q112)', qs: [
+      [101, "A team handles unpredictable daily support requests alongside feature work. Which framework is BEST suited?", ["A. Scrum — sprint structure creates predictable cycles","B. Kanban — continuous flow and WIP limits handle unpredictable, priority-changing work better","C. SAFe — PI planning creates stability","D. XP — technical practices ensure quality"], "B", "Kanban's strength is continuous, unpredictable work. Fixed-sprint Scrum forces urgent requests to wait for next sprint — problematic for support teams."],
+      [102, "8 development teams must coordinate on a single large product. Which approach is MOST appropriate?", ["A. Run 8 Scrum teams independently","B. Use a shared Kanban board","C. SAFe or LeSS — specifically designed for multi-team coordination","D. DSDM — governance supports large teams"], "C", "SAFe and LeSS are specifically designed for multi-team coordination. Independent Scrum teams without a coordination framework create dependency chaos."],
+      [103, "Which XP practice most directly addresses the risk of a developer leaving and taking critical knowledge?", ["A. Test-Driven Development","B. Pair Programming and Collective Code Ownership","C. Continuous Integration","D. On-Site Customer"], "B", "Pair programming shares knowledge in real-time. Collective code ownership ensures any developer can work in any part of the codebase. Both eliminate knowledge silos."],
+      [104, "A DSDM project is behind schedule. The sponsor wants to extend the deadline. What is the DSDM response?", ["A. Extend the deadline — full scope must be delivered","B. Reduce scope by dropping 'Could Have' features to meet the fixed deadline","C. Add more team members","D. Switch to Scrum for more flexibility"], "B", "DSDM's core principle: fix time and cost, vary scope. Deadlines are sacrosanct. MoSCoW prioritization enables scope reduction: drop Could Have → Should Have if necessary."],
+      [105, "What is the PRIMARY benefit of TDD compared to writing tests after coding?", ["A. TDD produces more tests","B. TDD produces better-designed code — writing tests first forces clarity on what the code needs to do","C. TDD is faster","D. TDD satisfies regulatory requirements"], "B", "The design benefit is as important as the quality benefit. Writing tests first forces the developer to think from the consumer's perspective, leading to cleaner APIs and simpler designs."],
+    ]},
+  ];
+
+  let html = `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 8</div>
+    <div class="hero-title">112+ Sample Exam Questions</div>
+    <div class="hero-subtitle">Scenario-based questions across all 4 domains + framework comparisons. Click a question to reveal options, then click your answer to check it.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-val">112</span><div class="hero-stat-label">Questions</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">5</span><div class="hero-stat-label">Categories</div></div>
+      <div class="hero-stat"><span class="hero-stat-val">Interactive</span><div class="hero-stat-label">Answers</div></div>
+    </div>
+  </div>
+  `;
+
+  qData.forEach(group => {
+    html += `<h2 class="content-h2" id="${group.id}">${group.section}</h2>`;
+    group.qs.forEach(([num, q, opts, ans, exp]) => {
+      html += qaBlock(num, q, opts, ans, exp);
+    });
+  });
+  return html;
+}
+
+function renderCheatsheet() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 9</div>
+    <div class="hero-title">Master Cheat Sheet</div>
+    <div class="hero-subtitle">Quick-reference cards for last-week review. These are the highest-density, highest-value summaries for exam day preparation.</div>
+  </div>
+
+  <h2 class="content-h2" id="golden-rules">Golden Exam Rules</h2>
+  ${callout('red', '🏆 10 Rules to Pass the PMI-ACP', [
+    '1. AGILE FIRST — Always choose the most agile, collaborative, transparent option',
+    '2. SERVANT LEADER — Leader behavior: serve, coach, remove obstacles. NEVER: direct, control, micromanage',
+    '3. TEAM OWNS "HOW" — Dev Team owns how much they commit and how it\'s built. PO owns WHAT and in what order',
+    '4. WELCOME CHANGE — Never refuse change. Change → backlog → prioritize → next sprint',
+    '5. WORKING SOFTWARE = VALUE — Nothing counts as delivered until working, tested software is in users\' hands',
+    '6. SPRINT GOAL IS SACRED — Don\'t disrupt mid-sprint unless absolutely necessary (rare)',
+    '7. COMMUNICATE DIRECTLY — Face-to-face beats email, documentation, or escalation',
+    '8. RETROSPECT ALWAYS — Every sprint. Continuous improvement is non-negotiable',
+    '9. INSPECT & ADAPT — When something isn\'t working, change it. Never cling to original plan',
+    '10. SELF-ORGANIZING — Trust the team. Leaders enable, they don\'t dictate solutions'
+  ])}
+
+  <div class="cheatsheet-grid">
+    <div class="cs-card">
+      <div class="cs-card-head">🎯 4 Agile Values</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><span class="cs-key">Value 1:</span><span class="cs-val">Individuals & interactions OVER processes & tools</span></div>
+        <div class="cs-item"><span class="cs-key">Value 2:</span><span class="cs-val">Working software OVER comprehensive documentation</span></div>
+        <div class="cs-item"><span class="cs-key">Value 3:</span><span class="cs-val">Customer collaboration OVER contract negotiation</span></div>
+        <div class="cs-item"><span class="cs-key">Value 4:</span><span class="cs-val">Responding to change OVER following a plan</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head">📐 Key Formulas</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><span class="cs-key">PERT:</span><span class="cs-val">(O + 4M + P) ÷ 6</span></div>
+        <div class="cs-item"><span class="cs-key">PERT σ:</span><span class="cs-val">(P − O) ÷ 6</span></div>
+        <div class="cs-item"><span class="cs-key">CPI:</span><span class="cs-val">EV ÷ AC (>1 = good)</span></div>
+        <div class="cs-item"><span class="cs-key">SPI:</span><span class="cs-val">EV ÷ PV (>1 = good)</span></div>
+        <div class="cs-item"><span class="cs-key">EAC:</span><span class="cs-val">BAC ÷ CPI</span></div>
+        <div class="cs-item"><span class="cs-key">WSJF:</span><span class="cs-val">Cost of Delay ÷ Job Size</span></div>
+        <div class="cs-item"><span class="cs-key">Velocity:</span><span class="cs-val">Remaining pts ÷ Avg velocity</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head">👥 Tuckman Stages</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><span class="cs-key">Forming:</span><span class="cs-val">DIRECT — structure + roles</span></div>
+        <div class="cs-item"><span class="cs-key">Storming:</span><span class="cs-val">COACH — facilitate conflict</span></div>
+        <div class="cs-item"><span class="cs-key">Norming:</span><span class="cs-val">MENTOR — step back</span></div>
+        <div class="cs-item"><span class="cs-key">Performing:</span><span class="cs-val">ENABLE — empower only</span></div>
+        <div class="cs-item"><span class="cs-key">Adjourning:</span><span class="cs-val">CELEBRATE — knowledge transfer</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-card-head">⚡ Conflict Levels</div>
+      <div class="cs-card-body">
+        <div class="cs-item"><span class="cs-key">L1:</span><span class="cs-val">Problem to Solve — facilitate</span></div>
+        <div class="cs-item"><span class="cs-key">L2:</span><span class="cs-val">Disagreement — cynical language</span></div>
+        <div class="cs-item"><span class="cs-key">L3:</span><span class="cs-val">Contest — personal attacks</span></div>
+        <div class="cs-item"><span class="cs-key">L4:</span><span class="cs-val">Crusade — coalition building</span></div>
+        <div class="cs-item"><span class="cs-key">L5:</span><span class="cs-val">World War — org intervention</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="content-h2" id="acronyms">Acronym Master List</h2>
+  <input id="acronym-search" placeholder="🔍 Filter acronyms..." oninput="filterAcronyms(this.value)">
+  <table class="content-table" id="acronym-table">
+    <thead><tr><th>Acronym</th><th>Full Form</th><th>Context</th></tr></thead>
+    <tbody>
+      ${[
+        ['ACP','Agile Certified Practitioner','The certification you\'re studying for'],
+        ['ECO','Exam Content Outline','PMI\'s official exam map — your primary study guide'],
+        ['PO','Product Owner','Scrum: owns backlog and business direction'],
+        ['SM','Scrum Master','Scrum: servant-leader, coach, impediment remover'],
+        ['DoD','Definition of Done','Quality standard for story completion — team-created'],
+        ['DoR','Definition of Ready','Story entry criteria before sprint pull'],
+        ['WIP','Work in Progress','Kanban: items actively being worked on'],
+        ['MVP','Minimum Viable Product','Smallest product to test a hypothesis with real users'],
+        ['MMF','Minimum Marketable Feature','Smallest independently deliverable valuable feature'],
+        ['TDD','Test-Driven Development','XP: Red-Green-Refactor cycle'],
+        ['BDD','Behavior-Driven Development','Given-When-Then tests in business language'],
+        ['CI','Continuous Integration','Frequent code merging with automated build/test'],
+        ['CD','Continuous Delivery/Deployment','Always releasable (Delivery) or auto-deploy (Deployment)'],
+        ['WSJF','Weighted Shortest Job First','SAFe: Cost of Delay ÷ Job Size'],
+        ['CFD','Cumulative Flow Diagram','Kanban chart showing flow across workflow states'],
+        ['DSDM','Dynamic Systems Development Method','Origin of MoSCoW; fix time/cost, vary scope'],
+        ['SAFe','Scaled Agile Framework','Enterprise agile scaling framework'],
+        ['ART','Agile Release Train','SAFe: team of 50–125 people on shared product'],
+        ['PI','Program Increment','SAFe: 8–12 week delivery cycle across an ART'],
+        ['RTE','Release Train Engineer','SAFe: Scrum Master equivalent for the ART'],
+        ['EVM','Earned Value Management','CV, SV, CPI, SPI, EAC formulas'],
+        ['PERT','Program Evaluation Review Technique','3-point estimation: (O+4M+P)÷6'],
+        ['RACI','Responsible/Accountable/Consulted/Informed','Role clarity matrix'],
+        ['MoSCoW','Must/Should/Could/Won\'t','DSDM prioritization technique'],
+        ['YAGNI','You Ain\'t Gonna Need It','Lean/XP: don\'t build unrequested features'],
+        ['WoW','Way of Working','DA (Disciplined Agile): choose your process approach'],
+        ['EQ','Emotional Intelligence','Goleman\'s model: self-awareness, empathy, social skills'],
+        ['BAC','Budget at Completion','EVM: total planned project budget'],
+        ['EAC','Estimate at Completion','EVM: BAC ÷ CPI — forecasted total cost'],
+        ['ETC','Estimate to Complete','EVM: EAC − AC — remaining budget needed'],
+      ].map((row, i) => `<tr><td><strong>${row[0]}</strong></td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join('')}
+    </tbody>
+  </table>
+
+  <h2 class="content-h2" id="formulas-quick">Framework Quick Comparison</h2>
+  ${table(['Framework', 'Cadence', 'Roles', 'Best For'], [
+    ['<strong>Scrum</strong>', 'Fixed sprints (1–4 wks)', 'PO, SM, Dev Team', 'Feature development teams'],
+    ['<strong>Kanban</strong>', 'Continuous flow', 'None prescribed', 'Support, ops, mixed work'],
+    ['<strong>Lean</strong>', 'Continuous', 'None prescribed', 'Process improvement'],
+    ['<strong>XP</strong>', 'Short iterations', 'Dev team + on-site customer', 'Teams needing high code quality'],
+    ['<strong>SAFe</strong>', 'PI (8–12 wks) + sprints', 'Team + ART + Portfolio roles', 'Large enterprises (50+ people)'],
+    ['<strong>DSDM</strong>', 'Timeboxes', 'Business Ambassador, Developer', 'Fixed-deadline projects'],
+    ['<strong>Crystal</strong>', 'Varies by team size', 'Varies', 'Teams wanting minimal process'],
+  ])}
+  `;
+}
+
+function renderStudyPlan() {
+  return `
+  <div class="section-hero">
+    <div class="hero-eyebrow">Section 10</div>
+    <div class="hero-title">Study Plan & Resources</div>
+    <div class="hero-subtitle">12-week timeline, ranked resources, exam-day checklist, and test psychology tips.</div>
+  </div>
+
+  <h2 class="content-h2" id="timeline">12-Week Study Timeline</h2>
+  ${table(['Weeks', 'Phase', 'Focus', 'Activities'], [
+    ['1–2', '🏗️ Foundation', 'Manifesto + ECO', 'Memorize 4 values + 12 principles. Read PMI ECO document. Understand 4 domains.'],
+    ['3–4', '📚 Frameworks', 'Scrum + Kanban + Lean + XP', 'Study each framework. Create comparison tables. Know roles, artifacts, ceremonies.'],
+    ['5–6', '🧠 Deep Dive 1', 'Leadership + Product Domains', 'Tuckman, conflict levels, coaching, EQ, user stories, INVEST, prioritization.'],
+    ['7–8', '🎯 Deep Dive 2', 'Mindset + Delivery Domains', 'Empirical control, agile metrics, EVM, risk, CI/CD, TDD, forecasting formulas.'],
+    ['9–10', '📝 Practice Tests', 'Apply Knowledge', 'Take 2–3 full-length timed practice exams. Review EVERY wrong answer deeply.'],
+    ['11', '🔍 Targeted Review', 'Weak Areas', 'Identify 3 weakest topics from practice tests. Re-study those sections intensively.'],
+    ['12', '✅ Final Polish', 'Confidence', 'Use cheat sheets only. Final practice exam. Target 75%+ consistently before booking.'],
+  ])}
+
+  <h2 class="content-h2" id="resources">Resources & Books (Ranked by Quality)</h2>
+  ${table(['Resource', 'Type', 'Notes'], [
+    ['PMI-ACP Exam Content Outline (ECO)', '📄 Free PDF', 'THE foundational document. Know every task and enabler. Free at pmi.org.'],
+    ['Agile Practice Guide', '📖 Free for PMI members', 'Official PMI + Agile Alliance reference. Key source material.'],
+    ['PMI Study Hall', '💻 Paid (pmi.org)', 'Official practice questions closest to actual exam. Recommended.'],
+    ['PM PrepCast', '💻 Paid (~$70)', '390+ questions, full timed exams. Best third-party practice resource.'],
+    ['PMI-ACP Exam Prep — Mike Griffiths', '📖 ~$40', 'The de facto standard study guide. Maps directly to PMI-ACP topics.'],
+    ['Udemy — Andrew Ramdayal PMI-ACP', '💻 ~$15–20', '28 PDUs, 140+ videos, 2 full mock exams. Top-rated course.'],
+    ['Scrum Guide (2020)', '📄 Free — scrumguides.org', '13-page definitive reference. Read it 3 times.'],
+    ['User Stories Applied — Mike Cohn', '📖 ~$35', 'Complete guide to writing, estimating, and managing user stories.'],
+    ['Agile Retrospectives — Derby/Larsen', '📖 ~$30', 'All the retrospective formats you need to know.'],
+    ['Lean Software Development — Poppendiecks', '📖 ~$40', '7 lean principles + 7 wastes adapted for software.'],
+  ])}
+
+  <h2 class="content-h2" id="exam-day">Exam Day Checklist</h2>
+  <h3 class="content-h3">📅 Two Weeks Before</h3>
+  <ul class="tip-list">
+    <li class="tip-item"><span class="tip-icon">✅</span><span class="tip-text">Complete at least 2 full timed mock exams (120 questions in 3 hours)</span></li>
+    <li class="tip-item"><span class="tip-icon">✅</span><span class="tip-text">Target a consistent 75%+ on practice tests before booking the real exam</span></li>
+    <li class="tip-item"><span class="tip-icon">✅</span><span class="tip-text">Review ALL wrong answers — understand WHY each correct answer is correct</span></li>
+    <li class="tip-item"><span class="tip-icon">✅</span><span class="tip-text">Re-read the Agile Manifesto values and 12 principles from memory</span></li>
+  </ul>
+
+  <h3 class="content-h3">🌙 Day Before</h3>
+  <ul class="tip-list">
+    <li class="tip-item"><span class="tip-icon">📌</span><span class="tip-text">Review cheat sheets only — don't start new material</span></li>
+    <li class="tip-item"><span class="tip-icon">💻</span><span class="tip-text">Online exam: run Pearson VUE system check — webcam, microphone, internet speed</span></li>
+    <li class="tip-item"><span class="tip-icon">🪪</span><span class="tip-text">Prepare valid government-issued photo ID</span></li>
+    <li class="tip-item"><span class="tip-icon">😴</span><span class="tip-text">Get a full night's sleep — fatigue significantly impairs judgment under time pressure</span></li>
+  </ul>
+
+  <h3 class="content-h3">🎯 Exam Day</h3>
+  <ul class="tip-list">
+    <li class="tip-item"><span class="tip-icon">🏠</span><span class="tip-text">Online: Clear desk completely. No papers, phones, books. Private quiet room.</span></li>
+    <li class="tip-item"><span class="tip-icon">⏰</span><span class="tip-text">Log in 30 min early (online) or arrive 30 min early (test center)</span></li>
+    <li class="tip-item"><span class="tip-icon">🚩</span><span class="tip-text">Flag and skip uncertain questions — don't burn time. Return at end.</span></li>
+    <li class="tip-item"><span class="tip-icon">⏱️</span><span class="tip-text">Time check: Q40 at ~50 min, Q80 at ~100 min</span></li>
+    <li class="tip-item"><span class="tip-icon">✍️</span><span class="tip-text">Answer ALL questions — zero penalty for wrong answers</span></li>
+    <li class="tip-item"><span class="tip-icon">🧘</span><span class="tip-text">Trust your preparation. First instinct is usually correct.</span></li>
+  </ul>
+
+  ${callout('blue', '🧠 10 Test Psychology Tips', [
+    '1. Eliminate first: cross out obviously wrong options (command-and-control, immediate escalation)',
+    '2. Read the question stem first, then read all options before answering',
+    '3. Beware absolute words: "always," "never," "only" — agile rarely uses absolutes',
+    '4. Escalate last: options that immediately escalate to management are almost always wrong',
+    '5. Skip & flag: never spend more than 3 minutes on any single question',
+    '6. Change answers only if you have a clear, logical reason — not just anxiety',
+    '7. 20 pretest questions don\'t count — don\'t stress about questions that feel odd',
+    '8. First instinct: research shows first instincts are more often right on uncertain questions',
+    '9. Breathe: if panic rises, close eyes, 3 deep breaths, re-read question fresh',
+    '10. You are prepared. This guide is proof. Walk in confident.'
+  ])}
+  `;
+}
+
+// ══════════════════════════════════════════════════════
+//  SEARCH DATA INDEX
+// ══════════════════════════════════════════════════════
+const searchIndex = [];
+function buildSearchIndex() {
+  SECTIONS.forEach(sec => {
+    const content = renderSection(sec.id);
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    // Index subsections
+    sec.subsections.forEach(sub => {
+      const el = div.querySelector(`#${sub.id}`);
+      if (el) {
+        let text = '';
+        let node = el.nextElementSibling;
+        while (node && !['H2'].includes(node.tagName)) {
+          text += ' ' + (node.textContent || '');
+          node = node.nextElementSibling;
+        }
+        searchIndex.push({ sectionId: sec.id, sectionTitle: sec.title, subId: sub.id, title: sub.title, text: text.trim().slice(0, 500) });
+      }
+    });
+    // Also index the whole section
+    searchIndex.push({ sectionId: sec.id, sectionTitle: sec.title, subId: null, title: sec.title, text: div.textContent.slice(0, 1000) });
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  UI LOGIC
+// ══════════════════════════════════════════════════════
+let currentSection = 'overview';
+let visitedSections = new Set();
+const contentCache = {};
+
+function navigateTo(sectionId, subId) {
+  // Update current section
+  currentSection = sectionId;
+  visitedSections.add(sectionId);
+
+  // Render content (cached)
+  if (!contentCache[sectionId]) {
+    contentCache[sectionId] = renderSection(sectionId);
+  }
+
+  // Show content
+  const content = document.getElementById('content');
+  content.innerHTML = contentCache[sectionId];
+
+  // Make QA interactive
+  initQA();
+
+  // Scroll to sub-section if specified
+  if (subId) {
+    setTimeout(() => {
+      const el = document.getElementById(subId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  } else {
+    content.closest('#main').scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Update sidebar active states
+  document.querySelectorAll('.section-header').forEach(h => h.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const activeHeader = document.querySelector(`.section-header[data-sec="${sectionId}"]`);
+  if (activeHeader) activeHeader.classList.add('active');
+  if (subId) {
+    const activeItem = document.querySelector(`.nav-item[data-sub="${subId}"]`);
+    if (activeItem) activeItem.classList.add('active');
+  }
+
+  // Update progress
+  updateProgress();
+
+  // Update URL hash silently
+  history.replaceState(null, '', `#${sectionId}${subId ? '-'+subId : ''}`);
+}
+
+function updateProgress() {
+  const total = SECTIONS.length;
+  const pct = Math.round((visitedSections.size / total) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = pct + '%';
+}
+
+// Build sidebar
+function buildSidebar() {
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = SECTIONS.map(sec => `
+    <div class="nav-section">
+      <div class="section-header" data-sec="${sec.id}" onclick="toggleSection('${sec.id}', this)">
+        <div class="section-icon" style="background:${sec.color}22;color:${sec.color}">${sec.icon}</div>
+        <span class="section-label sidebar-label">${sec.title}</span>
+        <span class="chevron sidebar-label">▶</span>
+      </div>
+      <div class="section-items" id="items-${sec.id}">
+        ${sec.subsections.map(sub => `
+          <a class="nav-item sidebar-label" data-sub="${sub.id}" onclick="navigateTo('${sec.id}','${sub.id}')">${sub.title}</a>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleSection(secId, header) {
+  const items = document.getElementById(`items-${secId}`);
+  const isOpen = items.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.section-items').forEach(i => i.classList.remove('open'));
+  document.querySelectorAll('.section-header').forEach(h => h.classList.remove('open'));
+
+  if (!isOpen) {
+    items.classList.add('open');
+    header.classList.add('open');
+    navigateTo(secId, null);
+  } else {
+    navigateTo(secId, null);
+  }
+}
+
+// Sidebar toggle
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  const btn = document.getElementById('toggle-sidebar');
+  sidebar.classList.toggle('collapsed');
+  document.body.classList.toggle('sidebar-collapsed');
+  btn.textContent = sidebar.classList.contains('collapsed') ? '▶' : '◀';
+});
+
+// ── Q&A INTERACTIONS ────────────────────────────────────
+function initQA() {
+  // already handled via onclick in HTML
+}
+function toggleQA(num) {
+  const body = document.getElementById(`qa-body-${num}`);
+  const question = body.previousElementSibling;
+  body.classList.toggle('open');
+  question.classList.toggle('open');
+}
+function selectOpt(el, num, letter, answer) {
+  const block = el.closest('.qa-block');
+  block.querySelectorAll('.qa-option').forEach(o => {
+    o.classList.remove('correct', 'incorrect');
+    if (o.dataset.letter === answer) o.classList.add('correct');
+    else if (o.dataset.letter === letter) o.classList.add('incorrect');
+  });
+  document.getElementById(`qa-ans-${num}`).style.display = 'block';
+}
+
+// ── SEARCH ──────────────────────────────────────────────
+function highlightText(text, query) {
+  if (!query) return text;
+  const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+let searchTimeout;
+document.getElementById('search-box').addEventListener('input', e => {
+  clearTimeout(searchTimeout);
+  const q = e.target.value.trim();
+  if (!q) { document.getElementById('search-results-count').textContent = ''; return; }
+  searchTimeout = setTimeout(() => {
+    const results = searchIndex.filter(item =>
+      item.title.toLowerCase().includes(q.toLowerCase()) ||
+      item.text.toLowerCase().includes(q.toLowerCase())
+    ).slice(0, 5);
+    document.getElementById('search-results-count').textContent =
+      results.length ? `${results.length} result${results.length > 1 ? 's' : ''} found` : 'No results';
+    if (results.length === 1) navigateTo(results[0].sectionId, results[0].subId);
+  }, 300);
+});
+
+document.getElementById('search-box').addEventListener('keydown', e => {
+  if (e.key === 'Enter') openSearchOverlay(e.target.value);
+  if (e.key === 'Escape') e.target.blur();
+});
+
+function openSearchOverlay(initialQuery = '') {
+  const overlay = document.getElementById('search-overlay');
+  overlay.classList.add('active');
+  const input = document.getElementById('search-modal-input');
+  input.value = initialQuery;
+  input.focus();
+  if (initialQuery) performModalSearch(initialQuery);
+}
+
+document.getElementById('search-modal-input').addEventListener('input', e => {
+  performModalSearch(e.target.value);
+});
+document.getElementById('search-modal-input').addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSearchOverlay();
+});
+document.getElementById('search-close-btn').addEventListener('click', closeSearchOverlay);
+document.getElementById('search-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('search-overlay')) closeSearchOverlay();
+});
+
+function closeSearchOverlay() {
+  document.getElementById('search-overlay').classList.remove('active');
+}
+
+function performModalSearch(query) {
+  const resultsDiv = document.getElementById('search-modal-results');
+  if (!query.trim()) { resultsDiv.innerHTML = '<div class="no-results">Type to search...</div>'; return; }
+
+  const results = searchIndex.filter(item =>
+    item.title.toLowerCase().includes(query.toLowerCase()) ||
+    item.text.toLowerCase().includes(query.toLowerCase())
+  ).slice(0, 12);
+
+  if (!results.length) {
+    resultsDiv.innerHTML = '<div class="no-results">No results found. Try different keywords.</div>';
+    return;
+  }
+
+  resultsDiv.innerHTML = results.map((r, i) => {
+    const preview = r.text.slice(0, 160);
+    return `<div class="search-result-item" onclick="selectSearchResult('${r.sectionId}','${r.subId || ''}')">
+      <div class="search-result-section">${r.sectionTitle}</div>
+      <div class="search-result-title">${highlightText(r.title, query)}</div>
+      <div class="search-result-preview">${highlightText(preview, query)}...</div>
+    </div>`;
+  }).join('');
+}
+
+function selectSearchResult(sectionId, subId) {
+  closeSearchOverlay();
+  navigateTo(sectionId, subId || null);
+  document.getElementById('search-box').value = '';
+}
+
+// Keyboard shortcut: Ctrl+K or Cmd+K to open search
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    openSearchOverlay();
+  }
+});
+
+// Acronym filter
+function filterAcronyms(query) {
+  const rows = document.querySelectorAll('#acronym-table tbody tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
+  });
+}
+
+// ── INIT ────────────────────────────────────────────────
+buildSidebar();
+buildSearchIndex();
+navigateTo('overview', null);
+// Open first section
+const firstItems = document.getElementById('items-overview');
+if (firstItems) firstItems.classList.add('open');
+const firstHeader = document.querySelector('.section-header[data-sec="overview"]');
+if (firstHeader) firstHeader.classList.add('open');
+</script>
+</body>
+</html>
